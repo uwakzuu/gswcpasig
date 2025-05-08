@@ -5,6 +5,7 @@ import DefaultImg from "../assets/img/defaultIMG.jpg";
 
 import { FaArrowDown } from "react-icons/fa";
 
+import ReactPlayer from 'react-player';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -118,19 +119,28 @@ function LandingPage() {
         }`}
       >
         <div className="container mx-auto flex flex-col md:flex-row items-center">
-          {/* Right Section: Image Container */}
-          <div className="md:w-1/2 flex justify-center items-center mb-8 md:mb-0 md:mr-4">
-            <img src={getImageSrc()} alt="About Us" className="w-full h-72 bg-gray-200 rounded-lg" />
+        {/* Right Section: Video Container */}
+        <div className="md:w-1/2 flex justify-center items-center mb-8 md:mb-0 md:mr-4">
+          <div className="w-full h-82 bg-gray-200 rounded-lg overflow-hidden">
+            <ReactPlayer
+              url="https://www.facebook.com/GSWCPasig/videos/3424431464483640"
+              width="100%"
+              height="100%"
+              controls
+            />
           </div>
+        </div>
 
           {/* Left Section: Text */}
           <div className="md:w-1/2 md:ml-4 justify-items-center">
             <h2 className="text-3xl font-bold mb-4">About Us</h2>
             <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
             <p className="text-lg pt-6">
-              We are a company dedicated to providing the best services and products to our customers.
-              Our team is committed to excellence and innovation, ensuring that we meet the needs of our clients
-              and exceed their expectations.
+              Global Surge Worship Center Pasig is a local church dedicated to sharing the love of Christ with the city. As part of the Global Surge network, our mission is to present Christ in a creative, credible, and caring way to the people of Pasig, with a special focus on young urban communities.
+              <br /><br />
+              We gather each week in a welcoming and contemporary environment where you can experience heartfelt worship, hear life-changing messages from God's Word, and grow alongside a passionate community of believers.
+              <br /><br />
+              At GSWC Pasig, our mission is to equip and empower every believer to live out their faith and share it with others. We are actively building a movement of Community Group-based churches, both locally and globally, starting right here in Pasig.
             </p>
           </div>
         </div>

@@ -6,3 +6,22 @@ html, body, #root {
   margin: 0;
   padding: 0;
 }
+
+.custom-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #bbb;
+  margin: 0 6px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.custom-dot:hover {
+  background-color: #7EA82C;
+  transform: scale(1.2);
+}
+
+.slick-dots li.slick-active .custom-dot {
+  background-color: #7EA82C;
+}

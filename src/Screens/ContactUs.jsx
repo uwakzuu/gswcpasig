@@ -29,8 +29,6 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Clear existing toasts (optional)
     toast.dismiss();
 
     if (!formData.name.trim()) {
@@ -69,19 +67,24 @@ export default function Contact() {
   return (
     <>
       <ToastNotification />
-      <div className="container mx-auto py-12 px-6">
-        <h1 className="text-4xl font-extrabold text-center mb-12 py-10 text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-          Contact Us
-        </h1>
+      <div className="container mx-auto max-w-screen-lg py-8 px-4">
+      <div className="text-center max-w-3xl mx-auto mb-16 pt-18">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
+        <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full mb-4"></div>
+        <p className="text-lg text-muted-foreground">
+        Have questions about our church? Want to learn more about our services or ministries? Fill out the form
+        below and someone from our team will get back to you soon.
+        </p>
+      </div>
   
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* First Container: Send us a message */}
-          <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-2xl shadow-xl overflow-hidden lg:col-span-7">
-            <div className="p-6 text-center">
-              <h2 className="text-2xl font-semibold text-gray-800">Send Us a Message</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Message Form */}
+          <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-2xl shadow-xl overflow-hidden border border-gray-300 lg:col-span-7">
+            <div className="p-1 text-center">
+              <h2 className="text-2xl font-semibold text-gray-800 pt-4">Send Us a Message</h2>
             </div>
-            <div className="p-6">
-              <form className="space-y-5" onSubmit={handleSubmit}>
+            <div className="p-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="name" className="text-sm font-medium block text-gray-700">
                     Name
@@ -127,7 +130,7 @@ export default function Contact() {
   
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-[#6B8E23] to-[#7EA82C] hover:from-[#7EA82C] hover:to-[#8BC53F] text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all duration-300"
                 >
                   Send Message
                 </button>
@@ -135,15 +138,15 @@ export default function Contact() {
             </div>
           </div>
   
-          {/* Second Container: Visit us */}
-          <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-2xl shadow-xl overflow-hidden lg:col-span-5">
-            <div className="p-6 text-center">
-              <h2 className="text-2xl font-semibold text-gray-800">Visit Us</h2>
+          {/* Visit Us Info */}
+          <div className="bg-gradient-to-br from-white via-gray-50 to-gray-100 rounded-2xl shadow-xl overflow-hidden border border-gray-300 lg:col-span-5">
+            <div className="p-1 text-center">
+              <h2 className="text-2xl font-semibold text-gray-800 pt-4">Visit Us</h2>
             </div>
-            <div className="p-6 space-y-6">
-              <div className="w-full h-[250px] rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+            <div className="p-4 space-y-5">
+              <div className="w-full h-[200px] rounded-xl overflow-hidden border border-gray-200 shadow-sm">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.3059353029!2d-74.25986548248684!3d40.69714941774136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1650000000000!5m2!1sen!2s"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d47062.928277006016!2d121.0042495!3d14.5663595!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c87777938deb%3A0x7f7e5476021cee1c!2sGlobal%20Surge%20Worship%20Center%20Pasig!5e1!3m2!1sen!2sph!4v1745653359707!5m2!1sen!2sph" 
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -153,51 +156,50 @@ export default function Contact() {
                 ></iframe>
               </div>
   
-              <div className="space-y-4 text-gray-700">
+              <div className="space-y-3 text-gray-700 text-sm">
                 <div className="flex items-center gap-3">
-                  <FaBuilding className="h-5 w-5 text-indigo-500" />
-                  <span>Company Name Inc.</span>
+                  <FaBuilding className="h-5 w-5 text-[#7EA82C]" />
+                  <span>Global Surge Worship Center Pasig</span>
                 </div>
-  
                 <div className="flex items-center gap-3">
-                  <FaMapMarkerAlt className="h-5 w-5 text-indigo-500" />
-                  <span>123 Business Street, New York, NY 10001</span>
+                  <FaMapMarkerAlt className="h-5 w-5 text-[#7EA82C]" />
+                  <span>H38G+GGX, Dr. Sixto Antonio Ave., Pasig, 1606 Metro Manila, Philippines</span>
                 </div>
-  
                 <div className="flex items-center gap-3">
-                  <FaPhoneAlt className="h-5 w-5 text-indigo-500" />
-                  <span>+1 (555) 123-4567</span>
+                  <FaPhoneAlt className="h-5 w-5 text-[#7EA82C]" />
+                  <span>09228097513 / 09178685053</span>
                 </div>
-  
                 <div className="flex items-center gap-3">
-                  <SiGmail className="h-5 w-5 text-indigo-500" />
+                  <SiGmail className="h-5 w-5 text-[#7EA82C]" />
                   <span>contact@companyname.com</span>
                 </div>
-  
                 <div className="flex items-center gap-3">
-                  <PiMicrosoftOutlookLogoFill className="h-5 w-5 text-indigo-500" />
+                  <PiMicrosoftOutlookLogoFill className="h-5 w-5 text-[#7EA82C]" />
                   <span>support@outlook.com</span>
                 </div>
               </div>
   
               <div>
-                <h3 className="text-sm font-medium mb-3 text-gray-700">Follow Us</h3>
+                <h3 className="text-sm font-medium mb-2 text-gray-700">Follow Us:</h3>
                 <div className="flex gap-4">
-                  <a href="#" className="hover:text-indigo-600 transition-colors">
+                  <div
+                    className="text-[#7EA82C] hover:text-[#5C7A1E] transition-colors cursor-pointer"
+                    onClick={() => window.open('https://www.facebook.com/GSWCPasig', '_blank')}
+                  >
                     <FaFacebook className="h-6 w-6" />
-                  </a>
-                  <a href="#" className="hover:text-pink-500 transition-colors">
+                  </div>
+                  <div
+                    className="text-[#7EA82C] hover:text-[#5C7A1E] transition-colors cursor-pointer"
+                    onClick={() => window.open('https://www.instagram.com/gswcpasig', '_blank')}
+                  >
                     <FaInstagram className="h-6 w-6" />
-                  </a>
-                  <a href="#" className="hover:text-blue-400 transition-colors">
-                    <FaTwitter className="h-6 w-6" />
-                  </a>
-                  <a href="#" className="hover:text-black transition-colors">
-                    <FaTiktok className="h-6 w-6" />
-                  </a>
-                  <a href="#" className="hover:text-black transition-colors">
+                  </div>
+                  <div
+                    className="text-[#7EA82C] hover:text-[#5C7A1E] transition-colors cursor-pointer"
+                    onClick={() => window.open ('https://www.youtube.com/@GlobalSurgeOfficial', '_blank')}
+                  >
                     <FaYoutube className="h-6 w-6" />
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -206,4 +208,5 @@ export default function Contact() {
       </div>
     </>
   );
+  
 }

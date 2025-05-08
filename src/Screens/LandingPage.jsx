@@ -3,40 +3,82 @@ import React, { useEffect, useRef, useState } from "react"
 import LandingImage from "../assets/img/LandingImage.jpg";
 import DefaultImg from "../assets/img/defaultIMG.jpg";
 
-import { FaPhoneAlt, FaMapMarkerAlt  } from "react-icons/fa";
-import { SiGmail } from "react-icons/si";
-import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
+import { FaArrowDown } from "react-icons/fa";
 
-import { PersonsData } from "../data/personsData";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import { pastorCarouselSettings } from "../components/carouselSettings";
+
+import { PastorsData } from "../data/pastorsData";
+import { ministriesData } from "../data/ministriesData";
+import { otherPagesData } from "../data/otherPagesData";
 
 function LandingPage() {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [visibleSections, setVisibleSections] = useState({
+    about: false,
+    whatWeDo: false,
+    pastors: false,
+    missionVision: false,
+    ministries: false,
+    otherPages: false,
+  });
+  const aboutRef = useRef(null);
+  const whatWeDoRef = useRef(null);
+  const pastorsRef = useRef(null);
+  const missionVisionRef = useRef(null);
+  const ministriesRef = useRef(null);
+  const otherPagesRef = useRef(null);
+
 
   const getImageSrc = (src) => src || DefaultImg;
 
   useEffect(() => {
+    const refs = [
+      { ref: aboutRef, key: "about" },
+      { ref: whatWeDoRef, key: "whatWeDo" },
+      { ref: pastorsRef, key: "pastors" },
+      { ref: missionVisionRef, key: "missionVision" },
+      { ref: ministriesRef, key: "ministries" },
+      { ref: otherPagesRef, key: "otherPages" },
+    ];
+  
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const key = refs.find(r => r.ref.current === entry.target).key;
+            setVisibleSections(prev => ({ ...prev, [key]: true }));
+          }
+        });
       },
-      { threshold: 0.1 },
-    )
+      { threshold: 0.1 }
+    );
+  
+    refs.forEach(({ ref }) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+  
+    return () => observer.disconnect();
+  }, []);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const toggleHover = (index) => {
+    if (isMobile) {
+      setHoveredIndex(hoveredIndex === index ? null : index);
     }
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
-
+  };
+  
   return (
-    <div className="flex flex-col min-h-screen mt-[64px]">
+    <div id="home" className="flex flex-col min-h-screen mt-[64px] overflow-hidden">
       {/* Hero Section with overflow hidden to prevent overlap */}
       <div className="relative h-[calc(100vh-64px)] overflow-hidden">
         <div
@@ -47,15 +89,34 @@ function LandingPage() {
           <div className="absolute inset-0 bg-black opacity-50 z-0" />
 
           {/* Content */}
-          <div className="relative z-10 text-center text-white px-4">
-            <h1 className="text-4xl font-bold mb-4">Welcome to Our Website</h1>
-            <p className="text-lg">Explore our features and offerings.</p>
+          <div className="relative z-10 text-center text-white px-2">
+            <h2 className="text-2xl sm:text-6xl font-bold mb-4">WORSHIP CENTER PASIG</h2>
+            <p className="text-md sm:text-2xl">Lifting hearts. Changing lives. Glorifying God.</p>
+            <div
+              className="text-white sm:text-xl text-lg flex justify-center pt-6 pb-2 transition-colors cursor-pointer animate-bounce"
+            >
+              <FaArrowDown />
+            </div>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => window.location.href = '/contact'}
+              className="hover:brightness-110 transition:opacity-90 w-35 justify-self-center hover:animate-pulse font-bold py-3 px-2 rounded-full bg-gradient-to-r from-[#7EA82C] to-[#A0C060] text-white cursor-pointer"
+            >
+              Need Prayer?
+            </div>
           </div>
         </div>
       </div>
 
       {/* About Us Section */}
-      <section className="bg-white text-gray-800 py-8 px-4 md:px-8">
+      <section
+        id = "about"
+        ref={aboutRef}
+        className={`bg-white text-gray-800 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
+          visibleSections.about ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+      >
         <div className="container mx-auto flex flex-col md:flex-row items-center">
           {/* Right Section: Image Container */}
           <div className="md:w-1/2 flex justify-center items-center mb-8 md:mb-0 md:mr-4">
@@ -63,9 +124,10 @@ function LandingPage() {
           </div>
 
           {/* Left Section: Text */}
-          <div className="md:w-1/2 md:ml-4">
+          <div className="md:w-1/2 md:ml-4 justify-items-center">
             <h2 className="text-3xl font-bold mb-4">About Us</h2>
-            <p className="text-lg">
+            <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
+            <p className="text-lg pt-6">
               We are a company dedicated to providing the best services and products to our customers.
               Our team is committed to excellence and innovation, ensuring that we meet the needs of our clients
               and exceed their expectations.
@@ -75,31 +137,54 @@ function LandingPage() {
       </section>
 
       {/* Mission and Vision */}
-      <section ref={sectionRef} className="py-16 px-4 bg-gray-100 overflow-hidden">
+      <section
+        id = "missionVision"
+        ref={missionVisionRef}
+        className={`bg-[#7EA82C]/10 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
+          visibleSections.missionVision ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+      >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Our Mission & Vision</h2>
+        <h2 className="text-3xl font-bold text-center mb-4">Our Mission & Vision</h2>
+        <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
 
-        <div className="flex flex-col md:flex-row gap-8 items-stretch">
+        <div className="flex flex-col md:flex-row gap-8 items-stretch pt-6">
           {/* Mission Container - Left */}
           <div
             className={`flex-1 relative transition-all duration-1000 transform ${
-              isVisible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
+              visibleSections.missionVision ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
             } group`}
           >
             <div
-              className="absolute inset-0 bg-emerald-600 transform skew-x-6 shadow-lg transition-all duration-300 
-              group-hover:shadow-xl group-hover:bg-emerald-700 group-hover:scale-105 group-hover:-rotate-1"
+              className="absolute inset-0 bg-[#7EA82C] transform skew-x-6 shadow-lg transition-all duration-300 
+              group-hover:shadow-xl group-hover:[#6B8E23] group-hover:scale-105 group-hover:-rotate-1"
             ></div>
             <div className="relative z-10 p-8 transform -skew-x-6 h-full flex flex-col justify-center transition-all duration-300">
               <div className="transform skew-x-6 transition-all duration-300 group-hover:translate-y-[-5px]">
-                <h3 className="text-2xl font-bold text-white mb-4 transition-all duration-300 group-hover:text-emerald-200 group-hover:scale-105">
-                  Our Mission
-                </h3>
-                <p className="text-white/90 transition-all duration-300 group-hover:text-white">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu
-                  sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla
-                  enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat
-                  nisl ut dapibus. Mauris iaculis porttitor posuere.
+                {/* Ribbon Banner for Mission */}
+                <div className="relative -top-5 left-0 right-0 z-20 pr-8 pb-6 flex justify-center">
+                  <div className="ribbon-wrapper w-[200px] relative">
+                    <div className="ribbon bg-[#4A4A48] w-full text-center shadow-md relative">
+                      <div className="ribbon-stitches-top border-t border-dashed border-black/20 mt-0.5 shadow-[0_0_2px_rgba(255,255,255,0.5)]"></div>
+                      <div className="ribbon-content relative">
+                        <span className="text-white text-shadow py-2 px-2 block text-2xl font-bold">
+                          Our Mission
+                        </span>
+                      </div>
+                      <div className="ribbon-stitches-bottom border-t border-dashed border-black/20 mb-0.5 shadow-[0_0_2px_rgba(255,255,255,0.3)]"></div>
+
+                      {/* Pseudo elements for ribbon tails - using actual elements since we can't use ::before/::after in JSX */}
+                      <div className="absolute -bottom-1 -left-8 border-[1.5em] border-solid border-[#4A4A48] border-l-transparent z-[-1] shadow-[1px_1px_1px_rgba(0,0,0,0.4)]"></div>
+                      <div className="absolute -bottom-1 -right-8 border-[1.5em] border-solid border-[#4A4A48] border-r-transparent z-[-1] shadow-[-1px_1px_1px_rgba(0,0,0,0.4)]"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-white/90 transition-all duration-300 group-hover:text-white font-medium md:text-lg">
+                  We Believe In <strong style={{ fontWeight: '900'}}>A Great Commitment</strong> 
+                  <br/><br/> To The <strong style={{ fontWeight: '900'}}>Great Commission</strong> 
+                  <br/><br/> And The <strong style={{ fontWeight: '900'}}>Great Commandment</strong> 
+                  <br/><br/> Will Grow A <strong style={{ fontWeight: '900'}}>Great Church</strong>
                 </p>
               </div>
             </div>
@@ -108,24 +193,39 @@ function LandingPage() {
           {/* Vision Container - Right */}
           <div
             className={`flex-1 relative transition-all duration-1000 transform ${
-              isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+              visibleSections.missionVision ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
             } group`}
             style={{ transitionDelay: "200ms" }}
           >
             <div
-              className="absolute inset-0 bg-purple-600 transform skew-x-6 shadow-lg transition-all duration-300 
-              group-hover:shadow-xl group-hover:bg-purple-700 group-hover:scale-105 group-hover:rotate-1"
+              className="absolute inset-0 bg-[#4A4A48] transform skew-x-6 shadow-lg transition-all duration-300 
+              group-hover:shadow-xl group-hover:[#4A4A48] group-hover:scale-105 group-hover:rotate-1"
             ></div>
             <div className="relative z-10 p-8 transform -skew-x-6 h-full flex flex-col justify-center transition-all duration-300">
               <div className="transform skew-x-6 transition-all duration-300 group-hover:translate-y-[-5px]">
-                <h3 className="text-2xl font-bold text-white mb-4 transition-all duration-300 group-hover:text-purple-200 group-hover:scale-105">
-                  Our Vision
-                </h3>
-                <p className="text-white/90 transition-all duration-300 group-hover:text-white">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu
-                  sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla
-                  enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat
-                  nisl ut dapibus. Mauris iaculis porttitor posuere.
+                {/* Ribbon Banner for Vision */}
+                <div className="relative -top-5 left-0 right-0 z-20 pr-8 flex justify-center">
+                  <div className="ribbon-wrapper w-[200px] relative">
+                    <div className="ribbon bg-[#7EA82C] w-full text-center shadow-md relative">
+                      <div className="ribbon-stitches-top border-t border-dashed border-black/20 mt-0.5 shadow-[0_0_2px_rgba(255,255,255,0.5)]"></div>
+                      <div className="ribbon-content relative">
+                        <span className="text-white text-shadow py-2 px-2 block text-2xl font-bold">
+                          Our Vision
+                        </span>
+                      </div>
+                      <div className="ribbon-stitches-bottom border-t border-dashed border-black/20 mb-0.5 shadow-[0_0_2px_rgba(255,255,255,0.3)]"></div>
+
+                      {/* Pseudo elements for ribbon tails - using actual elements since we can't use ::before/::after in JSX */}
+                      <div className="absolute -bottom-1 -left-8 border-[1.5em] border-solid border-[#7EA82C] border-l-transparent z-[-1] shadow-[1px_1px_1px_rgba(0,0,0,0.4)]"></div>
+                      <div className="absolute -bottom-1 -right-8 border-[1.5em] border-solid border-[#7EA82C] border-r-transparent z-[-1] shadow-[-1px_1px_1px_rgba(0,0,0,0.4)]"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-white/90 transition-all duration-300 group-hover:text-white font-medium md:text-lg">
+                  To Present Christ In A Creative, Contemporary, Credible, And Caring Way To Young Urban Residents. 
+                  <br/><br/> To Establish A Community Of Believers Each Equipped And Committed To Minister Effectively To Those Around Them.
+                  <br/><br/> To Actively Pursue The Planting Of Community Group Based Churches In Local And Foreign Centers.
                 </p>
               </div>
             </div>
@@ -135,12 +235,19 @@ function LandingPage() {
     </section>
 
       {/* What We Do Section */}
-      <section className="bg-white text-gray-800 py-8 px-4 md:px-8">
+      <section
+        id = "whatWeDo"
+        ref={whatWeDoRef}
+        className={`bg-white text-gray-800 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
+          visibleSections.whatWeDo ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+      >
         <div className="container mx-auto flex flex-col md:flex-row">
           {/* First Container: 30% Width */}
           <div className="md:w-3/10 mb-8 md:mb-0 md:mr-4 flex flex-col items-start bg-white p-4 rounded-lg">
-            <h3 className="text-2xl font-bold mb-2">What We Do?</h3>
-            <p className="text-base">
+            <h3 className="text-2xl font-bold mb-2 self-center">What We Do?</h3>
+            <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
+            <p className="text-base self-center pt-6">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
             </p>
           </div>
@@ -150,21 +257,21 @@ function LandingPage() {
             <div className="flex flex-col space-y-4">
               {/* Image Row 1 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 1" className="w-16 h-16 rounded-full" />
+                <img src={getImageSrc("")} alt="Image 1" className="w-24 h-24 rounded-full" />
                 <p className="text-base">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
               </div>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 2" className="w-16 h-16 rounded-full" />
+                <img src={getImageSrc("")} alt="Image 2" className="w-24 h-24 rounded-full" />
                 <p className="text-base">
                   Integer nec odio. Praesent libero.
                 </p>
               </div>
               {/* Image Row 3 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 3" className="w-16 h-16 rounded-full" />
+                <img src={getImageSrc("")} alt="Image 3" className="w-24 h-24 rounded-full" />
                 <p className="text-base">
                   Sed cursus ante dapibus diam.
                 </p>
@@ -177,21 +284,21 @@ function LandingPage() {
             <div className="flex flex-col space-y-4">
               {/* Image Row 1 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 4" className="w-16 h-16 rounded-full" />
+                <img src={getImageSrc("")} alt="Image 4" className="w-24 h-24 rounded-full" />
                 <p className="text-base">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
               </div>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 5" className="w-16 h-16 rounded-full" />
+                <img src={getImageSrc("")} alt="Image 5" className="w-24 h-24 rounded-full" />
                 <p className="text-base">
                   Integer nec odio. Praesent libero.
                 </p>
               </div>
               {/* Image Row 3 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 6" className="w-16 h-16 rounded-full" />
+                <img src={getImageSrc("")} alt="Image 6" className="w-24 h-24 rounded-full" />
                 <p className="text-base">
                   Sed cursus ante dapibus diam.
                 </p>
@@ -201,53 +308,149 @@ function LandingPage() {
         </div>
       </section>
 
-    {/* Personalities Section */}
-    <section className="bg-gray-100 text-gray-800 py-8 px-4 md:px-8">
-      <div className="flex flex-wrap justify-center gap-6">
-        {PersonsData.map((person, index) => (
+    {/* Pasig Pastors Section */}
+    <section
+      id="pastors"
+      ref={pastorsRef}
+      className={`bg-[#7EA82C]/10 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
+        visibleSections.pastors ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      }`}
+    >
+      <h2 className="text-3xl font-bold text-center mb-4">Our Pastors at GSWC Pasig</h2>
+      <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full mb-6"></div>
+      <Slider {...pastorCarouselSettings}>
+        {PastorsData.filter(pastor => pastor.church === "Worship Center - Pasig").map((pastor, index) => (
           <div
             key={index}
-            className="profile-card w-[280px] rounded-md shadow-xl overflow-hidden z-[100] relative cursor-pointer snap-start shrink-0 bg-white flex flex-col items-center justify-center gap-3 transition-all duration-300 group"
+            className="w-full max-w-[280px] rounded-md overflow-hidden bg-white flex flex-col items-center justify-center gap-3 transition-all duration-300 group mx-auto ml-10 sm:ml-2"
           >
             <div className="avatar w-full pt-5 flex items-center justify-center flex-col gap-1">
-              <div className="img_container w-full flex items-center justify-center relative z-10 after:absolute after:h-[6px] after:w-full after:bg-[#58b0e0] after:top-4 after:group-hover:size-[1%] after:delay-300 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-300 after:transition-all after:duration-300 before:absolute before:h-[6px] before:w-full before:bg-[#58b0e0] before:bottom-4 before:group-hover:size-[1%] before:delay-300 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-300 before:transition-all before:duration-300">
+              <div className="img_container w-full flex items-center justify-center relative z-10 after:absolute after:h-[6px] after:w-full after:bg-[#7EA82C] after:top-4 after:group-hover:size-[1%] after:delay-300 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-300 after:transition-all after:duration-300 before:absolute before:h-[6px] before:w-full before:bg-[#7EA82C] before:bottom-4 before:group-hover:size-[1%] before:delay-300 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-300 before:transition-all before:duration-300">
                 <img
-                  src={person.pfp} // Use the person's profile picture here
+                  src={pastor.img || DefaultImg}
                   alt="Profile"
                   className="w-36 h-36 object-cover rounded-full border-2 border-gray-100 group-hover:border-8 group-hover:transition-all group-hover:duration-300 transition-all duration-300 z-20"
                 />
-                <div className="absolute bg-[#58b0e0] z-10 size-[60%] w-full group-hover:size-[1%] group-hover:transition-all group-hover:duration-300 transition-all duration-300 delay-700 group-hover:delay-0"></div>
+                <div className="absolute bg-[#7EA82C] z-10 size-[60%] w-full group-hover:size-[1%] group-hover:transition-all group-hover:duration-300 transition-all duration-300 delay-700 group-hover:delay-0"></div>
               </div>
             </div>
-            <div className="headings *:text-center *:leading-4">
-              <p className="text-xl font-serif font-semibold text-[#434955]">{person.name}</p>
-              <p className="text-sm font-semibold text-[#434955]">{person.position}</p>
+            <div className="headings text-center leading-4">
+              <p className="text-xl font-serif font-semibold text-[#434955] mt-2 line-clamp-2 mx-2">{pastor.name}</p>
+              <p className="text-lg font-medium text-[#434955] mb-2 px-2">{pastor.position}</p>
+              <p className="text-sm font-medium text-[#434955] px-2">{pastor.church}</p>
             </div>
             <div className="w-full items-center justify-start flex px-6 py-2">
-              <ul className="flex flex-col items-start gap-2 has-[:last]:border-b-0 *:inline-flex *:gap-2 *:items-center *:justify-center *:border-b-[1.5px] *:border-b-stone-700 *:border-dotted *:text-xs *:font-semibold *:text-[#434955] pb-3">
-                <li>
-                  <FaPhoneAlt className="text-stone-700 group-hover:text-[#58b0e0]" size={15} />
-                  <p>{person.phoneNum}</p>
-                </li>
-                <li>
-                  <SiGmail className="text-stone-700 group-hover:text-[#58b0e0]" size={15} />
-                  <p>{person.gmailEmail}</p>
-                </li>
-                <li>
-                  <PiMicrosoftOutlookLogoFill className="text-stone-700 group-hover:text-[#58b0e0]" size={15} />
-                  <p>{person.outlookEmail}</p>
-                </li>
-                <li>
-                  <FaMapMarkerAlt className="text-stone-700 group-hover:text-[#58b0e0]" size={15} />
-                  <p>{person.Address}</p>
-                </li>
-              </ul>
             </div>
-            <hr className="w-full hover:h-5 h-3 bg-[#58b0e0] hover:transition-all hover:duration-300 transition-all duration-300" />
+            <hr className="w-full h-3 bg-[#7EA82C] hover:transition-all hover:duration-300 transition-all duration-300" />
+          </div>
+        ))}
+      </Slider>
+    </section>
+
+    <section
+      id="ministries"
+      ref={ministriesRef}
+      className={`bg-white py-8 px-1 md:px-8 transition-all duration-1000 transform ${
+        visibleSections.ministries
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-10"
+      }`}
+    >
+      <h2 className="text-3xl font-bold text-center mb-4">Ministries</h2>
+      <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full mb-6"></div>
+
+      <div className="flex flex-wrap justify-center gap-2">
+      {ministriesData.map((ministry, index) => {
+        const isHovered = hoveredIndex === index;
+
+        return (
+          <div
+            key={index}
+            onClick={() => toggleHover(index)}
+            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 h-44 w-56 rounded-2xl hover:duration-700 duration-700"
+          >
+            <div className="w-56 h-44 text-gray-800 border border-gray-300">
+              <img
+                src={ministry.img}
+                alt={ministry.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div
+              className={`absolute bg-[#7EA82C] w-56 p-4 py-6 flex flex-col gap-1 duration-500 ${
+                isMobile
+                  ? isHovered
+                    ? "bottom-0"
+                    : "-bottom-24"
+                  : "group-hover:bottom-0 -bottom-24 group-hover:duration-600"
+              }`}
+            >
+              <span className="text-gray-800 font-bold text-md text-start mt-[-.5rem] mx-[-.5rem]">
+                {ministry.name}
+              </span>
+              <p className="text-neutral-800 text-sm mx-[-.5rem]">
+                {ministry.desc ||
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+    </section>
+
+    {/* Other Pages Section */}
+    <section
+  id="otherPages"
+  ref={otherPagesRef}
+  className={`bg-[#7EA82C]/10 py-8 px-4 transition-all duration-1000 transform ${
+    visibleSections.otherPages ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+  }`}
+>
+  <div className="container mx-auto flex flex-col-reverse md:flex-row">
+    {/* Right Section: Image Container */}
+    <div className="md:w-2/3 flex justify-center items-center mb-8 md:mb-0">
+      <div className="flex flex-wrap gap-4 justify-center">
+        {otherPagesData.map((page) => (
+          <div
+            key={page.name}
+            className={`border-none transition-all shadow-sm border hover:shadow-md transition-shadow hover:-translate-y-1 rounded-xl ${
+              page.size === "small"
+                ? "w-full sm:w-52" // 13rem (custom but valid if defined)
+                : page.size === "medium"
+                ? "w-full sm:w-72" // 18rem
+                : "w-full sm:w-96" // 24rem
+            }`}
+          >
+            <div
+              className="relative aspect-video bg-background/20 rounded-md flex items-center justify-center"
+              onClick={() => window.open(page.href, '_blank')}
+              target="_blank"
+            >
+              <img
+                src={page.img}
+                alt={page.name}
+                className="w-full h-70 object-cover rounded-md hover:cursor-pointer hover:opacity-90"
+              />
+              <div className="absolute bg-black/30 inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer rounded-md">
+                <p className="text-white font-medium bg-black/50 px-4 py-2 rounded-md text-sm cursor-pointer">Click to visit</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
-    </section>
+    </div>
+
+    {/* Left Section: Text */}
+    <div className="md:w-1/3 sm:mr-10">
+      <h2 className="text-3xl font-bold mb-4 justify-self-center">Visit Our Other Pages</h2>
+      <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
+      <p className="text-xl pt-6 self-center mb-4">
+        Want to See More? Explore Our Network of Websites for More Information and to Connect with Our Community.
+      </p>
+    </div>
+  </div>
+</section>
 
     </div>
   );

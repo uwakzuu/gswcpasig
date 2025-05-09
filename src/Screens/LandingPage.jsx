@@ -2,6 +2,13 @@ import React, { useEffect, useRef, useState } from "react"
 
 import LandingImage from "../assets/img/LandingImage.jpg";
 import DefaultImg from "../assets/img/defaultIMG.jpg";
+import gswcBG from "../assets/img/BG/gswcBG.jpg";
+import Discipleship from "../assets/img/WhatWeDo/Discipleship.jpg";
+import CommunityGroup from "../assets/img/WhatWeDo/CommunityGroup.jpg";
+import CelebrationService from "../assets/img/WhatWeDo/SundayService.jpg";
+import Baptism from "../assets/img/WhatWeDo/Baptism.jpg";
+import Unwind from "../assets/img/WhatWeDo/Unwind.jpg";
+import Workshop from "../assets/img/WhatWeDo/Workshop.jpg";
 
 import { FaArrowDown } from "react-icons/fa";
 
@@ -18,6 +25,7 @@ import { otherPagesData } from "../data/otherPagesData";
 function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [visibleSections, setVisibleSections] = useState({
     about: false,
     whatWeDo: false,
@@ -92,7 +100,7 @@ function LandingPage() {
           {/* Content */}
           <div className="relative z-10 text-center text-white px-2">
             <h2 className="text-2xl sm:text-6xl font-bold mb-4">WORSHIP CENTER PASIG</h2>
-            <p className="text-md sm:text-2xl">Lifting hearts. Changing lives. Glorifying God.</p>
+            <p className="text-md sm:text-2xl">Lifting people up with positive answers to life.</p>
             <div
               className="text-white sm:text-xl text-lg flex justify-center pt-6 pb-2 transition-colors cursor-pointer animate-bounce"
             >
@@ -120,22 +128,48 @@ function LandingPage() {
       >
         <div className="container mx-auto flex flex-col md:flex-row items-center">
         {/* Right Section: Video Container */}
-        <div className="md:w-1/2 flex justify-center items-center mb-8 md:mb-0 md:mr-4">
-          <div className="w-full h-82 bg-gray-200 rounded-lg overflow-hidden">
-            <ReactPlayer
-              url="https://www.facebook.com/GSWCPasig/videos/3424431464483640"
-              width="100%"
-              height="100%"
-              controls
+        <div className="md:w-1/2 w-full flex justify-center items-center mb-8 md:mb-0 md:mr-4 relative">
+      {/* Player Container with consistent aspect ratio */}
+      <div className="relative w-full aspect-video bg-gray-200 rounded-xl overflow-hidden">
+        {/* Thumbnail Overlay */}
+        {!isPlaying && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 rounded-xl">
+            <img
+              src={gswcBG}
+              alt="Thumbnail"
+              className="w-full h-full object-cover absolute inset-0 z-0 rounded-xl"
             />
+            <div
+              onClick={() => setIsPlaying(true)}
+              className="z-20 cursor-pointer flex items-center justify-center w-20 h-20 text-4xl rounded-full bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 text-white transform transition-transform duration-300 hover:scale-125 focus:scale-125"
+              style={{
+                animation: 'pulse-custom 1.2s cubic-bezier(0.8, 0, 0, 1) infinite',
+                boxShadow: 'rgba(193, 244, 246, 0.698) 0px 0px 0px 0px',
+              }}
+            >
+              ▶
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Video Player */}
+        {isPlaying && (
+          <ReactPlayer
+            url="https://vimeo.com/493245601"
+            width="100%"
+            height="100%"
+            playing
+            controls
+          />
+        )}
+      </div>
+    </div>
 
           {/* Left Section: Text */}
           <div className="md:w-1/2 md:ml-4 justify-items-center">
             <h2 className="text-3xl font-bold mb-4">About Us</h2>
             <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
-            <p className="text-lg pt-6">
+            <p className="text-lg font-medium pt-6">
               Global Surge Worship Center Pasig is a local church dedicated to sharing the love of Christ with the city. As part of the Global Surge network, our mission is to present Christ in a creative, credible, and caring way to the people of Pasig, with a special focus on young urban communities.
               <br /><br />
               We gather each week in a welcoming and contemporary environment where you can experience heartfelt worship, hear life-changing messages from God's Word, and grow alongside a passionate community of believers.
@@ -255,10 +289,10 @@ function LandingPage() {
         <div className="container mx-auto flex flex-col md:flex-row">
           {/* First Container: 30% Width */}
           <div className="md:w-3/10 mb-8 md:mb-0 md:mr-4 flex flex-col items-start bg-white p-4 rounded-lg">
-            <h3 className="text-2xl font-bold mb-2 self-center">What We Do?</h3>
+            <h3 className="text-3xl font-bold mb-2 self-center">What We Do?</h3>
             <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
-            <p className="text-base self-center pt-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+            <p className="text-lg font-medium self-center pt-6">
+            Global Surge Worship Center Pasig is active in many areas of ministry, serving both our congregation and the wider community.
             </p>
           </div>
 
@@ -267,24 +301,39 @@ function LandingPage() {
             <div className="flex flex-col space-y-4">
               {/* Image Row 1 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 1" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
+                <img src={Discipleship} alt="Image 1" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    DISCIPLESHIP
+                  </h5>
+                  <p className="text-base">
+                  Go deeper in your faith journey through life-changing conversations and personal spiritual growth with a mentor who walks with you.
+                  </p>
+                </div>
               </div>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 2" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Integer nec odio. Praesent libero.
-                </p>
+                <img src={CommunityGroup} alt="Image 2" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    COMMUNITY GROUP
+                  </h5>
+                  <p className="text-base">
+                  Find your people! Share life, laughter, and God’s Word in a warm, supportive circle where real connections happen.
+                  </p>
+                </div>
               </div>
               {/* Image Row 3 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 3" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Sed cursus ante dapibus diam.
-                </p>
+                <img src={CelebrationService} alt="Image 3" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    CELEBRATION SERVICE
+                  </h5>
+                  <p className="text-base">
+                  Experience powerful worship, inspiring messages, and the joy of coming together as one big family to lift up Jesus!
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -294,24 +343,39 @@ function LandingPage() {
             <div className="flex flex-col space-y-4">
               {/* Image Row 1 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 4" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
+                <img src={Baptism} alt="Image 4" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    BAPTISM
+                  </h5>
+                  <p className="text-base">
+                  Declare your new life in Christ in this unforgettable, public celebration of faith and transformation.
+                  </p>
+                </div>
               </div>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 5" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Integer nec odio. Praesent libero.
-                </p>
+                <img src={Unwind} alt="Image 5" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    UNWIND
+                  </h5>
+                  <p className="text-base">
+                    Chill, laugh, and recharge with friends! Unwind is your space to relax, have fun, and build meaningful friendships.
+                  </p>
+                </div>
               </div>
               {/* Image Row 3 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 6" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Sed cursus ante dapibus diam.
-                </p>
+                <img src={Workshop} alt="Image 6" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    WORKSHOP
+                  </h5>
+                  <p className="text-base">
+                  Get equipped and empowered! Dive into hands-on learning that sharpens your skills and fuels your passion to serve.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

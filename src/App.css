@@ -26,4 +26,8 @@ html, body, #root {
   background-color: #7EA82C;
 }
 
-
+@keyframes pulse-custom {
+  100% {
+    box-shadow: 0 0 0 45px rgba(193, 244, 246, 0);
+  }
+}

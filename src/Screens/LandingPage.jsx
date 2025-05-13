@@ -20,7 +20,6 @@ import { pastorCarouselSettings } from "../components/carouselSettings";
 
 import { PastorsData } from "../data/pastorsData";
 import { ministriesData } from "../data/ministriesData";
-import { otherPagesData } from "../data/otherPagesData";
 
 function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -32,14 +31,12 @@ function LandingPage() {
     pastors: false,
     missionVision: false,
     ministries: false,
-    otherPages: false,
   });
   const aboutRef = useRef(null);
   const whatWeDoRef = useRef(null);
   const pastorsRef = useRef(null);
   const missionVisionRef = useRef(null);
   const ministriesRef = useRef(null);
-  const otherPagesRef = useRef(null);
 
   useEffect(() => {
     const refs = [
@@ -48,7 +45,6 @@ function LandingPage() {
       { ref: pastorsRef, key: "pastors" },
       { ref: missionVisionRef, key: "missionVision" },
       { ref: ministriesRef, key: "ministries" },
-      { ref: otherPagesRef, key: "otherPages" },
     ];
   
     const observer = new IntersectionObserver(

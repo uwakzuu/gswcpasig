@@ -30,7 +30,7 @@ function BackToTopButton() {
       {isVisible && (
         <div
         onClick={scrollToTop}
-        className="cursor-pointer relative after:content-['scroll_to_top'] after:text-white after:absolute after:text-nowrap after:scale-0 hover:after:scale-100 after:duration-200 w-12 h-12 rounded-full border-1 border-emerald-200 bg-gradient-to-r from-[#6B8E23] to-[#7EA82C] hover:from-[#7EA82C] hover:to-[#8BC53F] pointer flex items-center justify-center duration-300 hover:rounded-[50px] hover:w-26 group/button overflow-hidden active:scale-90"
+        className="cursor-pointer relative after:content-['scroll_to_top'] after:text-white after:absolute after:text-nowrap after:scale-0 hover:after:scale-100 after:duration-200 w-12 h-12 rounded-full bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] pointer flex items-center justify-center duration-300 hover:rounded-[50px] hover:w-26 group/button overflow-hidden active:scale-90"
       >
         <svg
           className="w-3 fill-white delay-50 duration-200 group-hover/button:-translate-y-12"

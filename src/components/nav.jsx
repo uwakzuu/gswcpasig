@@ -144,7 +144,7 @@ function Nav() {
           <div
             role="button"
             tabIndex={0}
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-white font-medium bg-[#6B8E23] hover:bg-[#7EA82C] transition-colors cursor-pointer"
+            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-white font-medium bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
             onClick={() => setIsModalOpen(true)}
           >
             Give Online
@@ -283,7 +283,7 @@ function Nav() {
           <div
             role="button"
             tabIndex={0}
-            className="block w-full text-center px-5 py-3 mt-4 rounded-full text-white font-medium bg-[#6B8E23] hover:bg-[#7EA82C]"
+            className="block w-full text-center px-5 py-3 mt-4 rounded-full text-white font-medium bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
             onClick={() => setIsModalOpen(true)} 
           >
             Give Online

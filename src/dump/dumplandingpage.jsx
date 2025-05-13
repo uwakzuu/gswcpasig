@@ -2,9 +2,17 @@ import React, { useEffect, useRef, useState } from "react"
 
 import LandingImage from "../assets/img/LandingImage.jpg";
 import DefaultImg from "../assets/img/defaultIMG.jpg";
+import gswcBG from "../assets/img/BG/gswcBG.jpg";
+import Discipleship from "../assets/img/WhatWeDo/Discipleship.jpg";
+import CommunityGroup from "../assets/img/WhatWeDo/CommunityGroup.jpg";
+import CelebrationService from "../assets/img/WhatWeDo/SundayService.jpg";
+import Baptism from "../assets/img/WhatWeDo/Baptism.jpg";
+import Unwind from "../assets/img/WhatWeDo/Unwind.jpg";
+import Workshop from "../assets/img/WhatWeDo/Workshop.jpg";
 
 import { FaArrowDown } from "react-icons/fa";
 
+import ReactPlayer from 'react-player';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -17,6 +25,7 @@ import { otherPagesData } from "../data/otherPagesData";
 function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [visibleSections, setVisibleSections] = useState({
     about: false,
     whatWeDo: false,
@@ -31,9 +40,6 @@ function LandingPage() {
   const missionVisionRef = useRef(null);
   const ministriesRef = useRef(null);
   const otherPagesRef = useRef(null);
-
-
-  const getImageSrc = (src) => src || DefaultImg;
 
   useEffect(() => {
     const refs = [
@@ -91,7 +97,7 @@ function LandingPage() {
           {/* Content */}
           <div className="relative z-10 text-center text-white px-2">
             <h2 className="text-2xl sm:text-6xl font-bold mb-4">WORSHIP CENTER PASIG</h2>
-            <p className="text-md sm:text-2xl">Lifting hearts. Changing lives. Glorifying God.</p>
+            <p className="text-md sm:text-2xl">Lifting people up with positive answers to life.</p>
             <div
               className="text-white sm:text-xl text-lg flex justify-center pt-6 pb-2 transition-colors cursor-pointer animate-bounce"
             >
@@ -101,7 +107,7 @@ function LandingPage() {
               role="button"
               tabIndex={0}
               onClick={() => window.location.href = '/contact'}
-              className="hover:brightness-110 transition:opacity-90 w-35 justify-self-center hover:animate-pulse font-bold py-3 px-2 rounded-full bg-gradient-to-r from-[#7EA82C] to-[#A0C060] text-white cursor-pointer"
+              className="hover:brightness-110 transition:opacity-90 w-35 justify-self-center hover:animate-pulse font-bold py-3 px-2 rounded-full bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 text-white cursor-pointer"
             >
               Need Prayer?
             </div>
@@ -118,19 +124,54 @@ function LandingPage() {
         }`}
       >
         <div className="container mx-auto flex flex-col md:flex-row items-center">
-          {/* Right Section: Image Container */}
-          <div className="md:w-1/2 flex justify-center items-center mb-8 md:mb-0 md:mr-4">
-            <img src={getImageSrc()} alt="About Us" className="w-full h-72 bg-gray-200 rounded-lg" />
+        {/* Right Section: Video Container */}
+        <div className="md:w-1/2 w-full flex justify-center items-center mb-8 md:mb-0 md:mr-4 relative">
+      {/* Player Container with consistent aspect ratio */}
+      <div className="relative w-full aspect-video bg-gray-200 rounded-xl overflow-hidden">
+        {/* Thumbnail Overlay */}
+        {!isPlaying && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 rounded-xl">
+            <img
+              src={gswcBG}
+              alt="Thumbnail"
+              className="w-full h-full object-cover absolute inset-0 z-0 rounded-xl"
+            />
+            <div
+              onClick={() => setIsPlaying(true)}
+              className="z-20 cursor-pointer flex items-center justify-center w-20 h-20 text-4xl rounded-full bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 text-white transform transition-transform duration-300 hover:scale-125 focus:scale-125"
+              style={{
+                animation: 'pulse-custom 1.2s cubic-bezier(0.8, 0, 0, 1) infinite',
+                boxShadow: 'rgba(193, 244, 246, 0.698) 0px 0px 0px 0px',
+              }}
+            >
+              ▶
+            </div>
           </div>
+        )}
+
+        {/* Video Player */}
+        {isPlaying && (
+          <ReactPlayer
+            url="https://vimeo.com/493245601"
+            width="100%"
+            height="100%"
+            playing
+            controls
+          />
+        )}
+      </div>
+    </div>
 
           {/* Left Section: Text */}
           <div className="md:w-1/2 md:ml-4 justify-items-center">
             <h2 className="text-3xl font-bold mb-4">About Us</h2>
             <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
-            <p className="text-lg pt-6">
-              We are a company dedicated to providing the best services and products to our customers.
-              Our team is committed to excellence and innovation, ensuring that we meet the needs of our clients
-              and exceed their expectations.
+            <p className="text-lg font-medium pt-6">
+              Global Surge Worship Center Pasig is a local church dedicated to sharing the love of Christ with the city. As part of the Global Surge network, our mission is to present Christ in a creative, credible, and caring way to the people of Pasig, with a special focus on young urban communities.
+              <br /><br />
+              We gather each week in a welcoming and contemporary environment where you can experience heartfelt worship, hear life-changing messages from God's Word, and grow alongside a passionate community of believers.
+              <br /><br />
+              At GSWC Pasig, our mission is to equip and empower every believer to live out their faith and share it with others. We are actively building a movement of Community Group-based churches, both locally and globally, starting right here in Pasig.
             </p>
           </div>
         </div>
@@ -140,7 +181,7 @@ function LandingPage() {
       <section
         id = "missionVision"
         ref={missionVisionRef}
-        className={`bg-[#7EA82C]/10 text-gray-800 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
+        className={`bg-[#7EA82C]/10 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
           visibleSections.missionVision ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
@@ -245,10 +286,10 @@ function LandingPage() {
         <div className="container mx-auto flex flex-col md:flex-row">
           {/* First Container: 30% Width */}
           <div className="md:w-3/10 mb-8 md:mb-0 md:mr-4 flex flex-col items-start bg-white p-4 rounded-lg">
-            <h3 className="text-2xl font-bold mb-2 self-center">What We Do?</h3>
+            <h3 className="text-3xl font-bold mb-2 self-center">What We Do?</h3>
             <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
-            <p className="text-base self-center pt-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+            <p className="text-lg font-medium self-center pt-6">
+            Global Surge Worship Center Pasig is active in many areas of ministry, serving both our congregation and the wider community.
             </p>
           </div>
 
@@ -257,24 +298,39 @@ function LandingPage() {
             <div className="flex flex-col space-y-4">
               {/* Image Row 1 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 1" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
+                <img src={Discipleship} alt="Image 1" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    DISCIPLESHIP
+                  </h5>
+                  <p className="text-sm sm:text-base">
+                  Go deeper in your faith journey through life-changing conversations and personal spiritual growth with a mentor who walks with you.
+                  </p>
+                </div>
               </div>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 2" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Integer nec odio. Praesent libero.
-                </p>
+                <img src={CommunityGroup} alt="Image 2" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    COMMUNITY GROUP
+                  </h5>
+                  <p className="text-sm sm:text-base">
+                  Find your people! Share life, laughter, and God’s Word in a warm, supportive circle where real connections happen.
+                  </p>
+                </div>
               </div>
               {/* Image Row 3 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 3" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Sed cursus ante dapibus diam.
-                </p>
+                <img src={CelebrationService} alt="Image 3" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    CELEBRATION SERVICE
+                  </h5>
+                  <p className="text-sm sm:text-base">
+                  Experience powerful worship, inspiring messages, and the joy of coming together as one big family to lift up Jesus!
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -284,24 +340,40 @@ function LandingPage() {
             <div className="flex flex-col space-y-4">
               {/* Image Row 1 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 4" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
+                <img src={Baptism} alt="Image 4" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    BAPTISM
+                  </h5>
+                  <p className="text-sm sm:text-base">
+                  Declare your new life in Christ in this unforgettable, public celebration of faith and transformation.
+                  </p>
+                </div>
               </div>
+              <br/>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 5" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Integer nec odio. Praesent libero.
-                </p>
+                <img src={Unwind} alt="Image 5" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    UNWIND
+                  </h5>
+                  <p className="text-sm sm:text-base">
+                    Chill, laugh, and recharge with friends! Unwind is your space to relax, have fun, and build meaningful friendships.
+                  </p>
+                </div>
               </div>
               {/* Image Row 3 */}
               <div className="flex items-center space-x-4">
-                <img src={getImageSrc("")} alt="Image 6" className="w-24 h-24 rounded-full" />
-                <p className="text-base">
-                  Sed cursus ante dapibus diam.
-                </p>
+                <img src={Workshop} alt="Image 6" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
+                <div className="flex-col">
+                  <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
+                    WORKSHOP
+                  </h5>
+                  <p className="text-sm sm:text-base">
+                  Get equipped and empowered! Dive into hands-on learning that sharpens your skills and fuels your passion to serve.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -312,7 +384,7 @@ function LandingPage() {
     <section
       id="pastors"
       ref={pastorsRef}
-      className={`bg-[#7EA82C]/10 text-gray-800 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
+      className={`bg-[#7EA82C]/10 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
         visibleSections.pastors ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
@@ -322,7 +394,7 @@ function LandingPage() {
         {PastorsData.filter(pastor => pastor.church === "Worship Center - Pasig").map((pastor, index) => (
           <div
             key={index}
-            className="w-full max-w-[280px] rounded-md overflow-hidden bg-white flex flex-col items-center justify-center gap-3 transition-all duration-300 group mx-auto ml-6 sm:ml-2"
+            className="w-full max-w-[280px] rounded-md overflow-hidden bg-white flex flex-col items-center justify-center gap-3 transition-all duration-300 group mx-auto ml-10 sm:ml-2"
           >
             <div className="avatar w-full pt-5 flex items-center justify-center flex-col gap-1">
               <div className="img_container w-full flex items-center justify-center relative z-10 after:absolute after:h-[6px] after:w-full after:bg-[#7EA82C] after:top-4 after:group-hover:size-[1%] after:delay-300 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-300 after:transition-all after:duration-300 before:absolute before:h-[6px] before:w-full before:bg-[#7EA82C] before:bottom-4 before:group-hover:size-[1%] before:delay-300 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-300 before:transition-all before:duration-300">
@@ -350,7 +422,7 @@ function LandingPage() {
     <section
       id="ministries"
       ref={ministriesRef}
-      className={`bg-white text-gray-800 py-8 px-1 md:px-8 transition-all duration-1000 transform ${
+      className={`bg-white py-8 px-1 md:px-8 transition-all duration-1000 transform ${
         visibleSections.ministries
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-10"
@@ -401,47 +473,57 @@ function LandingPage() {
 
     {/* Other Pages Section */}
     <section
-        id = "otherPages"
-        ref={otherPagesRef}
-        className={`bg-white text-gray-800 py-8 px-4 md:px-8 transition-all duration-1000 transform ${
-          visibleSections.otherPages ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        <div className="container mx-auto flex flex-col md:flex-row items-center">
-          {/* Left Section: Text */}
-          <div className="md:w-1/3 sm:mr-10 justify-items-center">
-            <h2 className="text-3xl font-bold mb-4">Visit Our Other Pages</h2>
-            <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
-            <p className="text-lg pt-6">
-              
-            </p>
+  id="otherPages"
+  ref={otherPagesRef}
+  className={`bg-[#7EA82C]/10 py-8 px-4 transition-all duration-1000 transform ${
+    visibleSections.otherPages ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+  }`}
+>
+  <div className="container mx-auto flex flex-col-reverse md:flex-row">
+    {/* Right Section: Image Container */}
+    <div className="md:w-2/3 flex justify-center items-center mb-8 md:mb-0">
+      <div className="flex flex-wrap gap-4 justify-center">
+        {otherPagesData.map((page) => (
+          <div
+            key={page.name}
+            className={`border-none transition-all shadow-sm border hover:shadow-md transition-shadow hover:-translate-y-1 rounded-xl ${
+              page.size === "small"
+              ? "w-full sm:w-44" 
+              : page.size === "medium"
+              ? "w-full sm:w-64" 
+              : "w-full sm:w-80"
+            
+            }`}
+          >
+            <div
+              className="relative aspect-video bg-background/20 rounded-md flex items-center justify-center"
+              onClick={() => window.open(page.href, '_blank')}
+              target="_blank"
+            >
+              <img
+                src={page.img}
+                alt={page.name}
+                className="w-full h-70 object-cover rounded-md hover:cursor-pointer hover:opacity-90"
+              />
+              <div className="absolute bg-black/30 inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer rounded-md">
+                <p className="text-white font-medium bg-black/50 px-4 py-2 rounded-md text-sm cursor-pointer">Click to visit</p>
+              </div>
+            </div>
           </div>
-
-          {/* Right Section: Image Container */}
-<div className="md:w-2/3 flex justify-center items-center mb-8 md:mb-0">
-  <div className="flex flex-wrap gap-6 justify-center">
-    {otherPagesData.map((page) => (
-      <div
-        key={page.title}
-        className={`${page.color} border-none transition-all hover:shadow-lg hover:-translate-y-1 rounded-xl p-4 ${
-          page.size === "small"
-          ? "w-full sm:w-40" // 10rem
-          : page.size === "medium"
-          ? "w-full sm:w-48" // 12rem
-          : "w-full sm:w-56" // 14rem
-        }`}
-      >
-        <div className="aspect-video bg-background/20 rounded-md flex items-center justify-center">
-        
-        </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
+    </div>
 
-          
-        </div>
-      </section>
+    {/* Left Section: Text */}
+    <div className="md:w-1/3 sm:mr-20">
+      <h2 className="text-3xl font-bold mb-4 justify-self-center">Visit Our Other Pages</h2>
+      <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full"></div>
+      <p className="text-xl pt-6 self-center mb-4">
+        Want to See More? Explore Our Network of Websites for More Information and to Connect with Our Community.
+      </p>
+    </div>
+  </div>
+</section>
 
     </div>
   );

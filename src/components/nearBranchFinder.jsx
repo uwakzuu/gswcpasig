@@ -90,7 +90,7 @@ export default function NearestBranchFinder({ branches }) {
         <button
           onClick={handleFindNearest}
           disabled={isLoading}
-          className="bg-gradient-to-r from-[#6B8E23] to-[#7EA82C] hover:from-[#7EA82C] hover:to-[#8BC53F] text-white px-4 py-2 rounded flex items-center gap-2 disabled:opacity-50"
+          className="bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] text-white px-4 py-2 rounded flex items-center gap-2 disabled:opacity-50 transition-all duration-200 transform hover:scale-105 active:scale-95"
         >
           {isLoading ? <FaSpinner className="animate-spin" /> : <FaMapMarkerAlt />}
           {isLoading ? "Finding nearest branch..." : "Find Nearest Branch"}
@@ -114,7 +114,7 @@ export default function NearestBranchFinder({ branches }) {
             <div
                 role="button"
                 tabIndex={0}
-                className="bg-gradient-to-r from-[#6B8E23] to-[#7EA82C] hover:from-[#7EA82C] hover:to-[#8BC53F] text-white text-sm px-4 py-2 rounded transition cursor-pointer"
+                className="bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] text-white text-sm px-4 py-2 rounded transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
                 onClick={() => window.open(nearestBranch.mapUrl, '_blank', 'noopener,noreferrer')}
                 onKeyPress={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {

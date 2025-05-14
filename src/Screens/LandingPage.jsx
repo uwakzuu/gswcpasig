@@ -345,7 +345,6 @@ function LandingPage() {
                   </p>
                 </div>
               </div>
-              <br/>
               {/* Image Row 2 */}
               <div className="flex items-center space-x-4">
                 <img src={Unwind} alt="Image 5" className="w-24 h-24 rounded-full object-cover transform transition-transform duration-300 hover:scale-105" />
@@ -434,9 +433,9 @@ function LandingPage() {
           <div
             key={index}
             onClick={() => toggleHover(index)}
-            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 sm:h-44 sm:w-56 h-68 w-84 rounded-2xl hover:duration-700 duration-700"
+            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 sm:h-44 sm:w-56 xl:w-84 xl:h-68 h-68 w-84 rounded-2xl hover:duration-700 duration-700"
           >
-            <div className="sm:h-44 sm:w-56 h-68 w-84 text-gray-800 border border-gray-300">
+            <div className="sm:h-44 sm:w-56 xl:w-84 xl:h-68 h-68 w-84 text-gray-800 border border-gray-300">
               <img
                 src={ministry.img}
                 alt={ministry.name}
@@ -444,7 +443,7 @@ function LandingPage() {
               />
             </div>
             <div
-              className={`absolute bg-[#7EA82C] sm:w-56 w-84 p-4 py-6 flex flex-col gap-1 duration-500 ${
+              className={`absolute bg-[#7EA82C] sm:w-56 xl:w-84 w-84 p-4 py-6 flex flex-col gap-1 duration-500 ${
                 isMobile
                   ? isHovered
                     ? "bottom-0"

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes, FaChevronRight } from 'react-icons/fa';
@@ -6,7 +7,7 @@ import { scroller } from 'react-scroll';
 
 import GiveOnlineModal from '../Screens/GiveOnlineModal';
 
-import Logo from '../assets/img/Logos/logowc1.png'
+import Logo from '../assets/img/Logos/logowc1.png';
 
 function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,7 +62,7 @@ function Nav() {
           <nav className="hidden md:flex items-center space-x-8">
             <div className="relative group">
               <div
-                onClick={() => window.location.href = '/'}
+                onClick={() => navigate('/')}
                 className="flex items-center text-gray-700 hover:text-[#7EA82C] font-medium transition-colors cursor-pointer"
               >
                 Home <FaChevronRight className="h-4 w-4 ml-1 transform group-hover:rotate-90 transition-transform" />
@@ -114,19 +115,19 @@ function Nav() {
               </div>
             </div>
             <div
-              onClick={() => window.location.href = '/branches'}
+              onClick={() => navigate('/branches')}
               className="text-gray-600 hover:text-[#7EA82C] font-medium transition-colors cursor-pointer"
             >
               Branches
             </div>
             <div
-              onClick={() => window.location.href = '/events'}
+              onClick={() => navigate('/events')}
               className="text-gray-600 hover:text-[#7EA82C] font-medium transition-colors cursor-pointer"
             >
               Events
             </div>
             <div
-              onClick={() => window.location.href = '/contact'}
+              onClick={() => navigate('/contact')}
               className="text-gray-600 hover:text-[#7EA82C] font-medium transition-colors cursor-pointer"
             >
               Contact Us
@@ -134,19 +135,19 @@ function Nav() {
           </nav>
 
           <div className="hidden md:flex">
-          <div
-            role="button"
-            tabIndex={0}
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-white font-medium bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Give Online
-          </div>
+            <div
+              role="button"
+              tabIndex={0}
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-white font-medium bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Give Online
+            </div>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-          <div
+            <div
               role="button"
               tabIndex={0}
               className="inline-flex items-center justify-center p-2 rounded-md text-[#4A4A48] focus:outline-none"
@@ -169,9 +170,9 @@ function Nav() {
       >
         <div className="px-4 pt-2 pb-4 space-y-1">
           <Collapsible className="grid gap-4">
-          <CollapsibleTrigger className="flex w-full items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 [&[data-state=open]>svg]:rotate-90">
-            Home <FaChevronRight className="ml-auto h-5 w-5 transition-all" />
-          </CollapsibleTrigger>
+            <CollapsibleTrigger className="flex w-full items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 [&[data-state=open]>svg]:rotate-90">
+              Home <FaChevronRight className="ml-auto h-5 w-5 transition-all" />
+            </CollapsibleTrigger>
             <CollapsibleContent>
               <div className="grid gap-1 pl-6">
                 <div
@@ -236,7 +237,7 @@ function Nav() {
           <div className="space-y-1 px-2">
             <div
               onClick={() => {
-                window.location.href = '/branches';
+                navigate('/branches');
                 setIsMenuOpen(false);
               }}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-[#7EA82C] cursor-pointer"
@@ -245,7 +246,7 @@ function Nav() {
             </div>
             <div
               onClick={() => {
-                window.location.href = '/events';
+                navigate('/events');
                 setIsMenuOpen(false);
               }}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-[#7EA82C] cursor-pointer"
@@ -254,7 +255,7 @@ function Nav() {
             </div>
             <div
               onClick={() => {
-                window.location.href = '/contact';
+                navigate('/contact');
                 setIsMenuOpen(false);
               }}
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-[#7EA82C] cursor-pointer"
@@ -268,7 +269,7 @@ function Nav() {
             role="button"
             tabIndex={0}
             className="block w-full text-center px-5 py-3 mt-4 rounded-full text-white font-medium bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 hover:from-[#7EA82C] hover:to-[#8BC53F] transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
-            onClick={() => setIsModalOpen(true)} 
+            onClick={() => setIsModalOpen(true)}
           >
             Give Online
           </div>
@@ -277,8 +278,8 @@ function Nav() {
 
       {/* Modal */}
       {isModalOpen && (
-  <GiveOnlineModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-)}
+        <GiveOnlineModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      )}
     </header>
   );
 }

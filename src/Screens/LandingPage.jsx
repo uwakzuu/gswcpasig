@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import LandingImage from "../assets/img/LandingImage.jpg";
+import LandingImage from "../assets/img/Wallpaper.jpg";
+import gswcLogo from "../assets/img/Logos/GLobalSurgeLogo2.png";
 import DefaultImg from "../assets/img/defaultIMG.jpg";
 import gswcBG from "../assets/img/BG/gswcBG.jpg";
 import Discipleship from "../assets/img/WhatWeDo/Discipleship.jpg";
@@ -78,35 +79,120 @@ function LandingPage() {
       setHoveredIndex(hoveredIndex === index ? null : index);
     }
   };
+
+  function useInView(ref, threshold = 0.3) {
+    const [isVisible, setIsVisible] = useState(false);
+  
+    useEffect(() => {
+      if (!ref.current) return;
+  
+      const observer = new IntersectionObserver(
+        ([entry]) => setIsVisible(entry.isIntersecting),
+        { threshold }
+      );
+  
+      observer.observe(ref.current);
+  
+      return () => {
+        observer.disconnect();
+      };
+    }, [ref, threshold]);
+  
+    return isVisible;
+  }
+  
+  function LeftSection() {
+    const ref = useRef(null);
+    const isVisible = useInView(ref);
+  
+   return (
+      <div
+        ref={ref}
+        className={`flex-1 flex flex-col items-center justify-center transform transition-opacity duration-900 ease-out ${
+          isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+        }`}
+      >
+        <div className="max-w-md">
+          <div className="mb-6">
+            <img
+              src={gswcLogo}
+              alt="Global Surge Logo"
+              width={200}
+              height={100}
+              className="lg:w-[300px] lg:h-[150px] object-contain mr-2 self-center justify-self-center"
+            />
+          </div>
+          <h1 className="lg:text-4xl text-2xl font-bold text-white mb-2 self-center justify-self-center">Global Surge</h1>
+          <h2 className="lg:text-3xl text-2xl font-bold text-lime-600 mb-4 lg:mb-0 self-center justify-self-center">Worship Center Pasig</h2>
+          <p className="lg:text-lg lg:opacity-0 mb-4 lg:mb-0">Lifting people up with positive answers to life.</p>
+          <div
+            className="text-white text-lg flex justify-center mb-4 transition-colors cursor-pointer animate-bounce"
+          >
+            <FaArrowDown />
+          </div>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => window.location.href = '/contact'}
+            className="hover:brightness-110 transition:opacity-90 w-35 justify-self-center self-center hover:animate-pulse font-bold py-3 px-2 rounded-full bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 text-white cursor-pointer text-center"
+          >
+            Need Prayer?
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  function RightSection() {
+    const ref = useRef(null);
+    const isVisible = useInView(ref);
+  
+    const lines = ["LIFTING PEOPLE UP", "WITH POSITIVE", "ANSWERS TO LIFE"];
+  
+    return (
+      <div
+        ref={ref}
+        className={`flex-1 flex items-center lg:justify-end justify-center lg:py-16 transform transition-opacity duration-700 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+        } lg:flex hidden`} // Add lg:flex hidden to control visibility
+      >
+        <div className="max-w-lg lg:space-y-8 space-y-2">
+          {lines.map((text, index) => (
+            <div
+              key={index}
+              style={{
+                transitionDelay: `${index * 200}ms`,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+              className={`lg:text-5xl text-4xl font-bold lg:text-gray-900 text-white self-center lg:bg-white/80 bg-white/30 tracking-wide backdrop-blur-sm px-6 py-3 transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+              }`}
+            >
+              {text}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div id="home" className="flex flex-col min-h-screen mt-[64px] overflow-hidden">
       {/* Hero Section with overflow hidden to prevent overlap */}
       <div className="relative h-[calc(100vh-64px)] overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center flex flex-col items-center justify-center"
+          className="absolute inset-0 bg-cover bg-center flex flex-col align-center"
           style={{ backgroundImage: `url(${LandingImage})` }}
         >
           {/* Overlay */}
           <div className="absolute inset-0 bg-black opacity-50 z-0" />
 
           {/* Content */}
-          <div className="relative z-10 text-center text-white px-2">
-            <h2 className="text-2xl sm:text-6xl font-bold mb-4">WORSHIP CENTER PASIG</h2>
-            <p className="text-md sm:text-2xl">Lifting people up with positive answers to life.</p>
-            <div
-              className="text-white sm:text-xl text-lg flex justify-center pt-6 pb-2 transition-colors cursor-pointer animate-bounce"
-            >
-              <FaArrowDown />
-            </div>
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => window.location.href = '/contact'}
-              className="hover:brightness-110 transition:opacity-90 w-35 justify-self-center hover:animate-pulse font-bold py-3 px-2 rounded-full bg-gradient-to-tr from-lime-500 via-lime-500 to-lime-600 text-white cursor-pointer"
-            >
-              Need Prayer?
-            </div>
+          <div className="relative z-10 flex flex-col md:flex-row h-full text-white">
+            <LeftSection />
+            <RightSection />
           </div>
         </div>
       </div>
@@ -340,7 +426,7 @@ function LandingPage() {
                   <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
                     BAPTISM
                   </h5>
-                  <p className="text-sm sm:text-base">
+                  <p className="text-sm sm:text-base sm:mb-6">
                   Declare your new life in Christ in this unforgettable, public celebration of faith and transformation.
                   </p>
                 </div>
@@ -433,9 +519,9 @@ function LandingPage() {
           <div
             key={index}
             onClick={() => toggleHover(index)}
-            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 sm:h-44 sm:w-56 xl:w-84 xl:h-68 h-68 w-84 rounded-2xl hover:duration-700 duration-700"
+            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 sm:h-44 sm:w-56 2xl:w-84 2xl:h-68 h-68 w-84 rounded-2xl hover:duration-700 duration-700"
           >
-            <div className="sm:h-44 sm:w-56 xl:w-84 xl:h-68 h-68 w-84 text-gray-800 border border-gray-300">
+            <div className="sm:h-44 sm:w-56 2xl:w-84 2xl:h-68 h-68 w-84 text-gray-800 border border-gray-300">
               <img
                 src={ministry.img}
                 alt={ministry.name}
@@ -443,7 +529,7 @@ function LandingPage() {
               />
             </div>
             <div
-              className={`absolute bg-[#7EA82C] sm:w-56 xl:w-84 w-84 p-4 py-6 flex flex-col gap-1 duration-500 ${
+              className={`absolute bg-[#7EA82C] sm:w-56 2xl:w-84 w-84 p-4 py-6 flex flex-col gap-1 duration-500 ${
                 isMobile
                   ? isHovered
                     ? "bottom-0"

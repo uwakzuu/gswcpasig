@@ -426,7 +426,7 @@ function LandingPage() {
                   <h5 className="relative pl-2 mb-2 font-bold sm:text-xl before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-4 before:bg-[#7EA82C] rounded-full">
                     BAPTISM
                   </h5>
-                  <p className="text-sm sm:text-base sm:mb-6">
+                  <p className="text-sm sm:text-base sm:mb-6 2xl:mb-0">
                   Declare your new life in Christ in this unforgettable, public celebration of faith and transformation.
                   </p>
                 </div>
@@ -529,18 +529,18 @@ function LandingPage() {
               />
             </div>
             <div
-              className={`absolute bg-[#7EA82C] sm:w-56 2xl:w-84 w-84 p-4 py-6 flex flex-col gap-1 duration-500 ${
+              className={`absolute bg-[#7EA82C] sm:w-56 2xl:w-84 w-84 p-4 py-6 2xl:py-5 flex flex-col gap-1 duration-500 ${
                 isMobile
-                  ? isHovered
-                    ? "bottom-0"
-                    : "-bottom-24"
-                  : "group-hover:bottom-0 -bottom-24 group-hover:duration-600"
+                ? isHovered
+                  ? "bottom-0"
+                  : `-bottom-${ministry.bottom}`
+                : `group-hover:bottom-0 -bottom-${ministry.bottom} group-hover:duration-600 ${ministry.mdBottomClass} ${ministry.lgBottomClass} ${ministry.xl2BottomClass}`
               }`}
             >
-              <span className="text-gray-800 font-bold text-md text-start mt-[-.5rem] mx-[-.5rem]">
+              <span className="text-gray-800 font-bold text-md 2xl:text-xl text-start mt-[-.5rem] mx-[-.5rem]">
                 {ministry.name}
               </span>
-              <p className="text-neutral-800 text-sm mx-[-.5rem]">
+              <p className="text-neutral-800 text-sm lg:text-sm 2xl:text-base font-medium italic mx-[-.5rem]">
                 {ministry.desc ||
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
               </p>

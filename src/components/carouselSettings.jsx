@@ -24,8 +24,8 @@ export const pastorCarouselSettings = {
         dots: true
       }
     },
-    {
-      breakpoint: 600,
+        {
+      breakpoint: 786,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 2,
@@ -33,7 +33,15 @@ export const pastorCarouselSettings = {
       }
     },
     {
-      breakpoint: 480,
+      breakpoint: 640,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        initialSlide: 2
+      }
+    },
+    {
+      breakpoint: 360,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1

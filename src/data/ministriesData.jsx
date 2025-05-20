@@ -22,51 +22,78 @@ export const ministriesData = [
     {
         name: "BigJ",
         img: bigj1,
-        desc: "",
+        desc: "\"Transforming lives through DANCE and FAITH\"",
+        bottom: 19,
+        mdBottomClass: "md:bottom-[-6rem]",
+        lgBottomClass: "lg:bottom-[-6rem]"
     },
     {
         name: "Arte Ministry",
         img: drama1,
-        desc: "",
+        desc: "\"Touching Lives Through Acting Ministry\"",
+        bottom: 19,
+        mdBottomClass: "md:bottom-[-6rem]",
+        lgBottomClass: "lg:bottom-[-6rem]",
+        xl2BottomClass: "2xl:bottom-[-4.5rem]"
     },
     {
         name: "Honest Deceiver Ministries",
         img: hdm1,
-        desc: "",
+        desc: "\"HDM utilizes the art of magic and the skills of professional illusionists to present the Gospel\"",
+        bottom: 24,
+        mdBottomClass: "md:bottom-[-8.5rem]",
+        lgBottomClass: "lg:bottom-[-8.5rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
     {
         name: "Hoop Heaven International",
         img: hh1,
         desc: "",
+        bottom: 24,
     },
     {
         name: "Kids At Church",
         img: kac1,
         desc: "",
+        bottom: 24,
     },
     {
         name: "Kids Jam",
         img: kj1,
-        desc: "",
+        desc: "\"We are passionate and dedicated leaders who is committed to helping children grow in their faith\"",
+        bottom: 24,
+        mdBottomClass: "md:bottom-[-8.5rem]",
+        lgBottomClass: "lg:bottom-[-8.5rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
     {
         name: "Praise Team",
         img: praise1,
         desc: "",
+        bottom: 24,
     },
     {
         name: "Production",
         img: prod1,
         desc: "",
+        bottom: 24,
     },
     {
         name: "ToughGuys International",
         img: tg1,
-        desc: "",
+        desc: "\"TGI teach you not only self defense but helps you to develop discipline, character and attitude.\"",
+        bottom: 24,
+        mdBottomClass: "md:bottom-[-8.5rem]",
+        lgBottomClass: "lg:bottom-[-8.5rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
     {
         name: "Youth Jam",
         img: yj1,
-        desc: "",
+        desc: "\"Magkaroon ng impact sa buhay ng bawat kabataan, sa loob ng tahanan at sa Komunidad\"",
+        bottom: 24,
+        mdBottomClass: "md:bottom-[-7.2rem]",
+        lgBottomClass: "lg:bottom-[-7.2rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
 ];

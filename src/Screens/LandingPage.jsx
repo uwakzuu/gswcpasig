@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 
 import LandingImage from "../assets/img/Wallpaper.jpg";
-import gswcLogo from "../assets/img/Logos/GLobalSurgeLogo2.png";
+import gswcLogo from "../assets/img/Logos/GSWCLogo.png";
 import DefaultImg from "../assets/img/defaultIMG.jpg";
 import gswcBG from "../assets/img/BG/gswcBG.jpg";
 import Discipleship from "../assets/img/WhatWeDo/Discipleship.jpg";

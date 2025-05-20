@@ -16,17 +16,16 @@ export const pastorCarouselSettings = {
   ),
   responsive: [
     {
-      breakpoint: 1024,
-      settings: {
+        breakpoint: 1024,
+        settings: {
         slidesToShow: 3,
         slidesToScroll: 3,
-        infinite: true,
-        dots: true
+        initialSlide: 3
       }
     },
-        {
-      breakpoint: 786,
-      settings: {
+    {
+        breakpoint: 786,
+        settings: {
         slidesToShow: 2,
         slidesToScroll: 2,
         initialSlide: 2
@@ -41,7 +40,7 @@ export const pastorCarouselSettings = {
       }
     },
     {
-      breakpoint: 360,
+      breakpoint: 480,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1

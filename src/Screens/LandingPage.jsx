@@ -302,7 +302,7 @@ function LandingPage() {
                   </div>
                 </div>
 
-                <p className="text-white/90 transition-all duration-300 group-hover:text-white font-medium md:text-lg xl:text-xl max-w-prose mx-auto">
+                <p className="text-white/90 transition-all duration-300 group-hover:text-white font-medium md:text-lg xl:text-xl md:my-18 lg:my-11 xl:my-0 max-w-prose mx-auto">
                   We Believe In <strong style={{ fontWeight: '900'}}>A Great Commitment</strong> 
                   <br/><br/> To The <strong style={{ fontWeight: '900'}}>Great Commission</strong> 
                   <br/><br/> And The <strong style={{ fontWeight: '900'}}>Great Commandment</strong> 
@@ -474,7 +474,7 @@ function LandingPage() {
         {PastorsData.filter(pastor => pastor.church === "Worship Center - Pasig").map((pastor, index) => (
           <div
             key={index}
-            className="w-full max-w-[280px] 2xl:max-w-[350px] rounded-md overflow-hidden bg-white flex flex-col items-center justify-center gap-3 transition-all duration-300 group mx-auto ml-10 sm:ml-2"
+            className="w-full max-w-[280px] 2xl:max-w-[350px] rounded-md overflow-hidden bg-white flex flex-col items-center justify-center gap-3 transition-all duration-300 group mx-auto ml-10 sm:ml-2 md:ml-10 lg:ml-5 2xl:ml-4"
           >
             <div className="avatar w-full pt-5 flex items-center justify-center flex-col gap-1">
               <div className="img_container w-full flex items-center justify-center relative z-10 after:absolute after:h-[6px] after:w-full after:bg-[#7EA82C] after:top-4 after:group-hover:size-[1%] after:delay-300 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-300 after:transition-all after:duration-300 before:absolute before:h-[6px] before:w-full before:bg-[#7EA82C] before:bottom-4 before:group-hover:size-[1%] before:delay-300 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-300 before:transition-all before:duration-300">

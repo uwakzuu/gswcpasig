@@ -22,19 +22,20 @@ export const ministriesData = [
     {
         name: "BigJ",
         img: bigj1,
-        desc: "\"Transforming lives through DANCE and FAITH\"",
-        bottom: 19,
-        mdBottomClass: "md:bottom-[-6rem]",
-        lgBottomClass: "lg:bottom-[-6rem]"
+        desc: "\"We aim to reach out young people through dancing and help them to enchance their talents.\"",
+        bottom: 24,
+        mdBottomClass: "md:bottom-[-8.5rem]",
+        lgBottomClass: "lg:bottom-[-8.5rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
     {
         name: "Arte Ministry",
         img: drama1,
-        desc: "\"Touching Lives Through Acting Ministry\"",
-        bottom: 19,
-        mdBottomClass: "md:bottom-[-6rem]",
-        lgBottomClass: "lg:bottom-[-6rem]",
-        xl2BottomClass: "2xl:bottom-[-4.5rem]"
+        desc: "Touching Lives Through Acting Ministry \"Performing To An Audience Of One\"",
+        bottom: 24,
+        mdBottomClass: "md:bottom-[-7.2rem]",
+        lgBottomClass: "lg:bottom-[-7.2rem]",
+        xl2BottomClass: "2xl:bottom-[-6rem]"
     },
     {
         name: "Honest Deceiver Ministries",

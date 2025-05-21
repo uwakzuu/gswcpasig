@@ -27,42 +27,44 @@ export default function Contact() {
     return messageWords.some(word => foulWords.includes(word));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast.dismiss();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  toast.dismiss();
 
-    if (!formData.name.trim()) {
-      toast.error("Name cannot be empty.");
-      return;
-    }
+  if (!formData.name.trim()) {
+    toast.error("Name cannot be empty.");
+    return;
+  }
 
-    if (!validateEmail(formData.email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
+  if (!validateEmail(formData.email)) {
+    toast.error("Please enter a valid email address.");
+    return;
+  }
 
-    if (containsFoulWords(formData.message)) {
-      toast.error("Please remove inappropriate language from your message.");
-      return;
-    }
+  if (containsFoulWords(formData.message)) {
+    toast.error("Please remove inappropriate language from your message.");
+    return;
+  }
 
-    emailjs
-      .send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        formData,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          toast.success("Message sent successfully!");
-          setFormData({ name: "", email: "", message: "" });
-        },
-        () => {
-          toast.error("Failed to send message. Try again later.");
-        }
-      );
-  };
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+  if (!serviceId || !templateId || !publicKey) {
+    console.error("Missing EmailJS environment variables.");
+    toast.error("Email service is not properly configured.");
+    return;
+  }
+
+  try {
+    await emailjs.send(serviceId, templateId, formData, publicKey);
+    toast.success("Message sent successfully!");
+    setFormData({ name: "", email: "", message: "" });
+  } catch (error) {
+    console.error("EmailJS error:", error);
+    toast.error("Failed to send message. Try again later.");
+  }
+};
 
   return (
     <>

@@ -16,13 +16,13 @@ export default function Events() {
         {EventsData.map((event) => (
           <div
             key={event.id}
-            className="bg-background rounded-lg overflow-hidden shadow-sm border"
+            className="bg-background rounded-lg overflow-hidden shadow-sm border transform transition-transform duration-300 hover:scale-105 hover:shadow-md"
           >
             <div className="relative h-48 w-full">
               <img
-                src={DefaultImg || event.image}
+                src={event.image}
                 alt={event.title}
-                className="object-cover h-full w-full"
+                className="object-contain h-full w-full border-b"
               />
             </div>
             <div className="p-6">

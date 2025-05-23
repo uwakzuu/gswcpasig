@@ -508,7 +508,7 @@ function LandingPage() {
           : "opacity-0 translate-y-10"
       }`}
     >
-      <h2 className="text-3xl font-bold text-center mb-4">Ministries</h2>
+      <h2 className="text-3xl text-black font-bold text-center mb-4">Ministries</h2>
       <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full mb-6"></div>
 
       <div className="flex flex-wrap justify-center gap-2">

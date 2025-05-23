@@ -49,14 +49,20 @@ export const ministriesData = [
     {
         name: "Hoop Heaven International",
         img: hh1,
-        desc: "",
+        desc: "\"Using basketball to share Christ and build character, leadership, and community among the youth.\"",
         bottom: 24,
+        mdBottomClass: "md:bottom-[-8.5rem]",
+        lgBottomClass: "lg:bottom-[-8.5rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
     {
         name: "Kids At Church",
         img: kac1,
-        desc: "",
+        desc: "\"Helping kids know Jesus through fun, learning, worship, and foundational Bible teaching.\"",
         bottom: 24,
+        mdBottomClass: "md:bottom-[-8.5rem]",
+        lgBottomClass: "lg:bottom-[-8.5rem]",
+        xl2BottomClass: "2xl:bottom-[-7.5rem]"
     },
     {
         name: "Kids Jam",
@@ -70,14 +76,20 @@ export const ministriesData = [
     {
         name: "Praise Team",
         img: praise1,
-        desc: "",
+        desc: "\"Leading people into God’s presence through passionate and Spirit-led worship.\"",
         bottom: 24,
+        mdBottomClass: "md:bottom-[-7.2rem]",
+        lgBottomClass: "lg:bottom-[-7.2rem]",
+        xl2BottomClass: "2xl:bottom-[-6rem]"
     },
     {
         name: "Production",
         img: prod1,
-        desc: "",
+        desc: "\"Behind the scenes, bringing excellence in media, lights, and sound for God’s glory.\"",
         bottom: 24,
+        mdBottomClass: "md:bottom-[-7.2rem]",
+        lgBottomClass: "lg:bottom-[-7.2rem]",
+        xl2BottomClass: "2xl:bottom-[-6rem]"
     },
     {
         name: "ToughGuys International",

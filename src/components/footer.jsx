@@ -23,12 +23,18 @@ export default function Footer() {
           <div>
             <div
               onClick={() => handleNavigation('/')}
-              className="text-2xl font-bold mb-4 block cursor-pointer"
+              className="text-2xl text-lime-400 font-bold mb-1 block cursor-pointer"
             >
-              Global Surge Worship Center Pasig
+              Global Surge
             </div>
-            <p className="text-gray-400 mb-4">
-              Building beautiful websites with modern design and powerful functionality.
+            <div
+              onClick={() => handleNavigation('/')}
+              className="text-xl text-white font-semibold mb-4 block cursor-pointer"
+            >
+              Worship Center Pasig
+            </div>
+            <p className="text-gray-400 mb-4 e">
+              Join us to grow in faith and impact the world.
             </p>
             <p className="text-gray-400">© {new Date().getFullYear()} Global Surge Inc. All rights reserved.</p>
             {/* Icons Row */}
@@ -109,6 +115,12 @@ export default function Footer() {
             </p>
             <p className='text-gray-400'>
               Sunday: 4PM
+            </p>
+            <p className='text-gray-400'>
+              Friday: 4PM
+            </p>
+            <p className='text-gray-400'>
+              Saturday: 4PM
             </p>
           </div>
         </div>

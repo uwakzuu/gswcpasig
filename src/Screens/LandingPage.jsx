@@ -11,7 +11,7 @@ import Baptism from "../assets/img/WhatWeDo/Baptism.jpg";
 import Unwind from "../assets/img/WhatWeDo/Unwind.jpg";
 import Workshop from "../assets/img/WhatWeDo/Workshop.jpg";
 
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
 import ReactPlayer from 'react-player';
 import Slider from "react-slick";
@@ -21,23 +21,31 @@ import { pastorCarouselSettings } from "../components/carouselSettings";
 
 import { PastorsData } from "../data/pastorsData";
 import { ministriesData } from "../data/ministriesData";
+import { testimonials } from "../data/testimonyData";
 
 function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [touchStartX, setTouchStartX] = useState(null)
+  const [touchEndX, setTouchEndX] = useState(null)
   const [visibleSections, setVisibleSections] = useState({
     about: false,
     whatWeDo: false,
     pastors: false,
     missionVision: false,
     ministries: false,
+    testimonials: false,
   });
   const aboutRef = useRef(null);
   const whatWeDoRef = useRef(null);
   const pastorsRef = useRef(null);
   const missionVisionRef = useRef(null);
   const ministriesRef = useRef(null);
+  const testimonialsRef = useRef(null);
+
+  const intervalRef = useRef(null)
 
   useEffect(() => {
     const refs = [
@@ -46,6 +54,7 @@ function LandingPage() {
       { ref: pastorsRef, key: "pastors" },
       { ref: missionVisionRef, key: "missionVision" },
       { ref: ministriesRef, key: "ministries" },
+      { ref: testimonialsRef, key: "testimonials" },
     ];
   
     const observer = new IntersectionObserver(
@@ -177,6 +186,62 @@ function LandingPage() {
       </div>
     );
   }
+
+   const startAutoSlide = () => {
+  intervalRef.current = setInterval(() => {
+    setCurrentSlide((prev) => (prev + 1) % testimonials.length)
+  }, 10000)
+}
+
+const resetAutoSlide = () => {
+  clearInterval(intervalRef.current)
+  startAutoSlide()
+}
+
+useEffect(() => {
+  startAutoSlide()
+  return () => clearInterval(intervalRef.current)
+}, [testimonials.length])
+
+const nextSlide = () => {
+  setCurrentSlide((prev) => (prev + 1) % testimonials.length)
+  resetAutoSlide()
+}
+
+const prevSlide = () => {
+  setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  resetAutoSlide()
+}
+
+const goToSlide = (index) => {
+  setCurrentSlide(index)
+  resetAutoSlide()
+}
+
+// Touch swipe handlers
+const handleTouchStart = (e) => {
+  setTouchStartX(e.touches[0].clientX)
+}
+
+const handleTouchMove = (e) => {
+  setTouchEndX(e.touches[0].clientX)
+}
+
+const handleTouchEnd = () => {
+  if (touchStartX === null || touchEndX === null) return
+
+  const distance = touchStartX - touchEndX
+  const threshold = 50
+
+  if (distance > threshold) {
+    nextSlide()
+  } else if (distance < -threshold) {
+    prevSlide()
+  }
+
+  setTouchStartX(null)
+  setTouchEndX(null)
+}
   
   return (
     <div id="home" className="flex flex-col min-h-screen mt-[64px] overflow-hidden">
@@ -519,7 +584,7 @@ function LandingPage() {
           <div
             key={index}
             onClick={() => toggleHover(index)}
-            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 sm:h-44 sm:w-56 2xl:w-84 2xl:h-68 h-68 w-84 rounded-2xl hover:duration-700 duration-700"
+            className="relative group duration-500 cursor-pointer overflow-hidden text-gray-50 sm:h-44 sm:w-56 2xl:w-84 2xl:h-68 h-68 w-84 rounded-2xl hover:duration-700 duration-700 shadow-xl"
           >
             <div className="sm:h-44 sm:w-56 2xl:w-84 2xl:h-68 h-68 w-84 text-gray-800 border border-gray-300">
               <img
@@ -550,6 +615,124 @@ function LandingPage() {
       })}
     </div>
     </section>
+
+    {/* Testimonials Section */}
+      <section 
+        id="testimonials"
+        ref={testimonialsRef}
+        className={`px-4 py-8 bg-[#7EA82C]/10 transition-all duration-1000 transform ${
+        visibleSections.testimonials
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-10"
+      }`}>
+        <div className="container mx-auto md:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-center mb-4">
+              Community Testimonials
+            </h2>
+            <div className="w-12 h-1 bg-[#7EA82C] mx-auto rounded-full mb-6"></div>
+          </div>
+
+          {/* Desktop Grid View */}
+          <div className="hidden grid-cols-1 gap-8 md:grid md:grid-cols-3">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={testimonial.id}
+                className="group relative cursor-pointer overflow-hidden bg-white rounded-2xl px-6 pt-12 pb-10 shadow-xl ring-1 ring-gray-900/5 transition-all duration-500 transform hover:scale-105 hover:shadow-3xl sm:mx-auto sm:max-w-sm sm:px-12"
+              >
+                <span className="absolute top-0 left-0 z-0 h-32 w-32 rounded-full opacity-75 transition-all duration-500 transform group-hover:scale-[20] bg-gradient-to-r from-lime-400 to-lime-600"></span>
+                <div className="relative z-10 mx-auto max-w-md">
+                  <div className="flex justify-center">
+                    <div className="grid h-24 w-24 place-items-center rounded-full transition-all duration-500 transform overflow-hidden bg-gradient-to-r from-gray-300 to-gray-500">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="rounded-full object-cover w-20 h-20"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-4 pt-6 text-center">
+                    <h3 className="text-xl font-bold text-gray-900 transition-all duration-500 group-hover:text-white">
+                      {testimonial.name}
+                    </h3>
+                    <blockquote className="text-gray-700 leading-relaxed transition-all duration-500 group-hover:text-white italic">
+                      "{testimonial.testimonial}"
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Carousel View */}
+          <div className="md:hidden">
+            <div className="relative">
+              <div
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className="flex transition-transform duration-300 ease-in-out gap-4"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {testimonials.map((testimonial, index) => (
+                  <div
+                    key={testimonial.id}
+                    className="group relative cursor-pointer overflow-hidden bg-white rounded-2xl px-6 pt-12 pb-10 shadow-2xl ring-1 ring-gray-900/5 transition-all duration-500 transform hover:scale-105 hover:shadow-3xl w-full flex-shrink-0"
+                  >
+                    <span className="absolute top-0 left-0 z-0 h-32 w-32 rounded-full opacity-75 transition-all duration-500 transform group-hover:scale-[20] bg-gradient-to-r from-lime-400 to-lime-600"></span>
+                    <div className="relative z-10 mx-auto max-w-md">
+                      <div className="flex justify-center">
+                        <div className="grid h-24 w-24 place-items-center rounded-full transition-all duration-500 transform overflow-hidden bg-gradient-to-r from-gray-300 to-gray-500">
+                          <img
+                            src={testimonial.image}
+                            alt={testimonial.name}
+                            className="rounded-full object-cover w-20 h-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-4 pt-6 text-center">
+                        <h3 className="text-xl font-semibold text-gray-900 transition-all duration-500 group-hover:text-white">
+                          {testimonial.name}
+                        </h3>
+                        <blockquote className="text-gray-700 leading-relaxed transition-all duration-500 group-hover:text-white italic">
+                          "{testimonial.testimonial}"
+                        </blockquote>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Navigation Arrows */}
+              <div
+                className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 backdrop-blur-sm z-20"
+                onClick={prevSlide}
+              >
+                <FaChevronLeft className="h-4 w-4 text-black" />
+              </div>
+              <div
+                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 backdrop-blur-sm z-20"
+                onClick={nextSlide}
+              >
+                <FaChevronRight className="h-4 w-4 text-black" />
+              </div>
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="mt-6 flex justify-center space-x-2">
+              {testimonials.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-2 w-2 rounded-full transition-colors ${
+                    index === currentSlide ? "bg-[#7EA82C]" : "bg-slate-300"
+                  }`}
+                  onClick={() => goToSlide(index)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

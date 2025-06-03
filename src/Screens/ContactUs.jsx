@@ -173,11 +173,11 @@ export default function Contact() {
                 </div>
                 <div className="flex items-center gap-3">
                   <SiGmail className="h-5 w-5 text-[#7EA82C]" />
-                  <span>contact@companyname.com</span>
+                  <span>N/A</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <PiMicrosoftOutlookLogoFill className="h-5 w-5 text-[#7EA82C]" />
-                  <span>support@outlook.com</span>
+                  <span>N/A</span>
                 </div>
               </div>
   

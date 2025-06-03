@@ -111,6 +111,13 @@ function Nav() {
                   >
                     Ministries
                   </div>
+                                    <div
+                    onClick={() => scrollToHash('testimonials')}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7EA82C] cursor-pointer"
+                    role="menuitem"
+                  >
+                    Testimonials
+                  </div>
                 </div>
               </div>
             </div>
@@ -228,6 +235,15 @@ function Nav() {
                   className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7EA82C] cursor-pointer"
                 >
                   Ministries
+                </div>
+                <div
+                  onClick={() => {
+                    scrollToHash('testimonials');
+                    setIsMenuOpen(false);
+                  }}
+                  className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7EA82C] cursor-pointer"
+                >
+                  Testimonials
                 </div>
               </div>
             </CollapsibleContent>

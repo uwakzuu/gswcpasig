@@ -105,7 +105,7 @@ export default function NearestBranchFinder({ branches }) {
 
       {nearestBranch && (
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="text-lg font-semibold mb-2">Your Nearest Branch:</h4>
+          <h4 className="text-lg text-black font-semibold mb-2">Your Nearest Branch:</h4>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <p className="font-medium text-blue-700">{nearestBranch.name}</p>

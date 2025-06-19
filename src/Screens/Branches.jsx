@@ -1,25 +1,33 @@
-import { useState, useEffect } from "react";
-import NearestBranchFinder from "../components/nearBranchFinder";
-import { BranchesData } from "../data/branchesData";
-import DefaultImg from "../assets/img/defaultIMG.jpg";
-import { FaClock, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+// Importing necessary hooks and components
+import { useState, useEffect } from "react"; // React hooks for state and lifecycle management
+import NearestBranchFinder from "../components/nearBranchFinder"; // Component to find the nearest branch
+import { BranchesData } from "../data/branchesData"; // Data for branches
+import DefaultImg from "../assets/img/defaultIMG.jpg"; // Default image for branches
+import { FaClock, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa"; // Font Awesome icons for UI elements
 
+// Main component for displaying branches
 export default function Branches() {
+  // State to track the currently active branch ID
   const [activeBranchId, setActiveBranchId] = useState(null);
+  // State to determine if the view is on a mobile device
   const [isMobile, setIsMobile] = useState(false);
 
+  // Effect to handle window resize events and update mobile state
   useEffect(() => {
+    // Function to check if the window width is less than or equal to 768px
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    handleResize();
+    handleResize(); // Initial check on component mount
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Function to toggle the overlay for a branch on mobile view
   const handleOverlayToggle = (branchId) => {
     if (isMobile) {
+      // Toggle the active branch ID if in mobile view
       setActiveBranchId((prevId) => (prevId === branchId ? null : branchId));
     }
   };

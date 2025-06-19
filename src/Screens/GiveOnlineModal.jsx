@@ -1,47 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { giveOnlineData } from "../data/giveOnlineData";
-import { Copy } from "lucide-react";
+import React, { useState, useEffect } from "react"; // Importing React and necessary hooks for state and lifecycle management
+import { giveOnlineData } from "../data/giveOnlineData"; // Importing data for online giving options
+import { Copy } from "lucide-react"; // Importing the Copy icon component from lucide-react
 
+// Functional component for the Give Online Modal
 const GiveOnlineModal = ({ isOpen, onClose }) => {
-  const [selectedAccount, setSelectedAccount] = useState(null);
-  const [copied, setCopied] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState(null); // State to track the selected account
+  const [copied, setCopied] = useState(false); // State to track if the account number has been copied
 
+  // Effect to handle body overflow when the modal is open
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add("overflow-hidden"); // Prevent scrolling when modal is open
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden"); // Allow scrolling when modal is closed
     }
 
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden"); // Cleanup to ensure scrolling is enabled on unmount
     };
   }, [isOpen]);
 
+  // Function to handle copying text to clipboard
   const handleCopy = async (text) => {
     try {
       if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard.writeText(text); 
       } else {
         // Fallback for mobile or insecure context
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = "0";
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        document.body.removeChild(textarea);
+        const textarea = document.createElement("textarea"); 
+        textarea.value = text; 
+        textarea.style.position = "fixed"; 
+        textarea.style.opacity = "0"; 
+        document.body.appendChild(textarea); 
+        textarea.focus(); 
+        textarea.select(); 
+        document.body.removeChild(textarea); 
       }
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch (err) {
-      console.error("Copy failed:", err);
+      console.error("Copy failed:", err); 
     }
   };
-  
 
-  if (!isOpen) return null;
+  if (!isOpen) return null; 
 
   return (
     <>

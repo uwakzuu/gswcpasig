@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 
 const ConfirmationModal = ({ isOpen, onClose, downloadICS }) => {
+   // Effect to handle body overflow when the modal is open
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add("overflow-hidden");
+      document.body.classList.add("overflow-hidden"); // Prevent scrolling when modal is open
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden"); // Allow scrolling when modal is closed
     }
 
     return () => {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden"); // Cleanup to ensure scrolling is enabled on unmount
     };
   }, [isOpen]);
 

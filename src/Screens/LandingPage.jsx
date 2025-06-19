@@ -1,5 +1,7 @@
+// Importing necessary React hooks for component functionality
 import React, { useEffect, useRef, useState } from "react"
 
+// Importing images used in the landing page
 import LandingImage from "../assets/img/Wallpaper.jpg";
 import gswcLogo from "../assets/img/Logos/GSWCLogo.png";
 import DefaultImg from "../assets/img/defaultIMG.jpg";
@@ -11,17 +13,20 @@ import Baptism from "../assets/img/WhatWeDo/Baptism.jpg";
 import Unwind from "../assets/img/WhatWeDo/Unwind.jpg";
 import Workshop from "../assets/img/WhatWeDo/Workshop.jpg";
 
+// Importing icons from Font Awesome for UI elements
 import { FaArrowDown, FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
-import ReactPlayer from 'react-player';
-import Slider from "react-slick";
+// Importing external libraries for media and carousel functionality
+import ReactPlayer from 'react-player'; // For playing videos
+import Slider from "react-slick"; // For creating carousels
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { pastorCarouselSettings } from "../components/carouselSettings";
+import { pastorCarouselSettings } from "../components/carouselSettings"; // Carousel settings for pastors section
 
-import { PastorsData } from "../data/pastorsData";
-import { ministriesData } from "../data/ministriesData";
-import { testimonials } from "../data/testimonyData";
+// Importing data for rendering content on the landing page
+import { PastorsData } from "../data/pastorsData"; // Data for pastors
+import { ministriesData } from "../data/ministriesData"; // Data for ministries
+import { testimonials } from "../data/testimonyData"; // Data for testimonials
 
 function LandingPage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -44,7 +49,6 @@ function LandingPage() {
   const missionVisionRef = useRef(null);
   const ministriesRef = useRef(null);
   const testimonialsRef = useRef(null);
-
   const intervalRef = useRef(null)
 
   useEffect(() => {
@@ -57,59 +61,72 @@ function LandingPage() {
       { ref: testimonialsRef, key: "testimonials" },
     ];
   
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const key = refs.find(r => r.ref.current === entry.target).key;
-            setVisibleSections(prev => ({ ...prev, [key]: true }));
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-  
-    refs.forEach(({ ref }) => {
-      if (ref.current) observer.observe(ref.current);
+    // Create an IntersectionObserver to observe when elements are in view
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      // Check if the element is intersecting (in view)
+      if (entry.isIntersecting) {
+        // Find the key associated with the intersecting element
+        const key = refs.find(r => r.ref.current === entry.target).key;
+        // Update the state to mark the section as visible
+        setVisibleSections(prev => ({ ...prev, [key]: true }));
+      }
     });
-  
-    return () => observer.disconnect();
-  }, []);
+  },
+  { threshold: 0.1 } // Trigger when 10% of the element is visible
+);
+
+// Observe each reference in the refs array
+refs.forEach(({ ref }) => {
+  if (ref.current) observer.observe(ref.current);
+});
+
+// Cleanup function to disconnect the observer when the component unmounts
+return () => observer.disconnect();
+}, []);
+
+// Effect to check if the window is in mobile view and update state accordingly
+useEffect(() => {
+  const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+  checkMobile(); 
+  window.addEventListener("resize", checkMobile); 
+  return () => window.removeEventListener("resize", checkMobile); 
+}, []);
+
+// Function to toggle hover state for mobile view
+const toggleHover = (index) => {
+  if (isMobile) {
+    // Toggle the hovered index if in mobile view
+    setHoveredIndex(hoveredIndex === index ? null : index);
+  }
+};
+
+// Custom hook to determine if a referenced element is in view
+function useInView(ref, threshold = 0.3) {
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    if (!ref.current) return;
 
-  const toggleHover = (index) => {
-    if (isMobile) {
-      setHoveredIndex(hoveredIndex === index ? null : index);
-    }
-  };
+    // Create an IntersectionObserver to observe the element
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting), 
+      { threshold } 
+    );
 
-  function useInView(ref, threshold = 0.3) {
-    const [isVisible, setIsVisible] = useState(false);
+    observer.observe(ref.current); 
+
+    // Cleanup function to disconnect the observer
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref, threshold]);
+
+  return isVisible; 
+}
   
-    useEffect(() => {
-      if (!ref.current) return;
-  
-      const observer = new IntersectionObserver(
-        ([entry]) => setIsVisible(entry.isIntersecting),
-        { threshold }
-      );
-  
-      observer.observe(ref.current);
-  
-      return () => {
-        observer.disconnect();
-      };
-    }, [ref, threshold]);
-  
-    return isVisible;
-  }
-  
+// Left Section of Landing Page
   function LeftSection() {
     const ref = useRef(null);
     const isVisible = useInView(ref);
@@ -152,6 +169,7 @@ function LandingPage() {
     );
   }
   
+  // Right Section of Landing Page
   function RightSection() {
     const ref = useRef(null);
     const isVisible = useInView(ref);
@@ -163,7 +181,7 @@ function LandingPage() {
         ref={ref}
         className={`flex-1 flex items-center lg:justify-end justify-center lg:py-16 transform transition-opacity duration-700 ease-out ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-        } lg:flex hidden`} // Add lg:flex hidden to control visibility
+        } lg:flex hidden`} 
       >
         <div className="max-w-lg lg:space-y-8 space-y-2">
           {lines.map((text, index) => (
@@ -187,40 +205,47 @@ function LandingPage() {
     );
   }
 
-   const startAutoSlide = () => {
+// Function to start automatic sliding of testimonials
+const startAutoSlide = () => {
+  // Set an interval to change slides every 10 seconds
   intervalRef.current = setInterval(() => {
-    setCurrentSlide((prev) => (prev + 1) % testimonials.length)
+    setCurrentSlide((prev) => (prev + 1) % testimonials.length) 
   }, 10000)
 }
 
+// Function to reset the automatic slide interval
 const resetAutoSlide = () => {
-  clearInterval(intervalRef.current)
-  startAutoSlide()
+  clearInterval(intervalRef.current) 
+  startAutoSlide() 
 }
 
+// Effect to start the auto slide when the component mounts
 useEffect(() => {
-  startAutoSlide()
-  return () => clearInterval(intervalRef.current)
-}, [testimonials.length])
+  startAutoSlide() 
+  return () => clearInterval(intervalRef.current) 
+}, [testimonials.length]) 
 
+// Function to move to the next slide manually
 const nextSlide = () => {
-  setCurrentSlide((prev) => (prev + 1) % testimonials.length)
-  resetAutoSlide()
+  setCurrentSlide((prev) => (prev + 1) % testimonials.length) 
+  resetAutoSlide() 
 }
 
+// Function to move to the previous slide manually
 const prevSlide = () => {
   setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  resetAutoSlide()
+  resetAutoSlide() 
 }
 
+// Function to go to a specific slide
 const goToSlide = (index) => {
-  setCurrentSlide(index)
-  resetAutoSlide()
+  setCurrentSlide(index) 
+  resetAutoSlide() 
 }
 
-// Touch swipe handlers
+// Touch swipe handlers for mobile devices
 const handleTouchStart = (e) => {
-  setTouchStartX(e.touches[0].clientX)
+  setTouchStartX(e.touches[0].clientX) 
 }
 
 const handleTouchMove = (e) => {
@@ -228,10 +253,10 @@ const handleTouchMove = (e) => {
 }
 
 const handleTouchEnd = () => {
-  if (touchStartX === null || touchEndX === null) return
+  if (touchStartX === null || touchEndX === null) return 
 
-  const distance = touchStartX - touchEndX
-  const threshold = 50
+  const distance = touchStartX - touchEndX 
+  const threshold = 50 
 
   if (distance > threshold) {
     nextSlide()
@@ -239,8 +264,8 @@ const handleTouchEnd = () => {
     prevSlide()
   }
 
-  setTouchStartX(null)
-  setTouchEndX(null)
+  setTouchStartX(null) 
+  setTouchEndX(null) 
 }
   
   return (

@@ -1,51 +1,57 @@
-import { useState, useEffect } from "react";
-import { EventsData } from "../data/eventsData";
-import { FaCalendarAlt, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
-import ConfirmationModal from "./confirmationModal";
+import { useState, useEffect } from "react"; // Importing React hooks for state and lifecycle management
+import { EventsData } from "../data/eventsData"; // Importing event data for rendering
+import { FaCalendarAlt, FaClock, FaMapMarkerAlt } from 'react-icons/fa'; // Importing Font Awesome icons for UI elements
+import ConfirmationModal from "./confirmationModal"; // Importing a modal component for confirmation dialogs
 
 export default function Events() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [activeEventId, setActiveEventId] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to track if the modal is open
+  const [selectedEvent, setSelectedEvent] = useState(null); // State to store the currently selected event
+  const [activeEventId, setActiveEventId] = useState(null); // State to track the active event ID for mobile view
+  const [isMobile, setIsMobile] = useState(false); // State to determine if the view is on a mobile device
 
+  // Effect to handle window resize events and update mobile state
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768); 
     };
 
-    handleResize(); 
-    window.addEventListener('resize', handleResize);
+    handleResize();
+    window.addEventListener('resize', handleResize); 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Function to toggle the overlay for an event on mobile view
   const handleOverlayToggle = (EventId) => {
     if (isMobile) {
       setActiveEventId((prevId) => (prevId === EventId ? null : EventId));
     }
   };
 
+  // Function to handle the click event for saving the date
   const handleSaveDateClick = (event) => {
     setSelectedEvent(event);
-    setIsModalOpen(true);
+    setIsModalOpen(true); 
   };
 
+  // Function to close the modal
   const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSelectedEvent(null);
+    setIsModalOpen(false); 
+    setSelectedEvent(null); 
   };
 
+  // Function to download the event details as an ICS file
   const downloadICS = () => {
-    if (!selectedEvent) return;
+    if (!selectedEvent) return; 
 
-    const { title, location, date, time } = selectedEvent;
+    const { title, location, date, time } = selectedEvent; 
 
-    let startDate = new Date();
+    let startDate = new Date(); 
 
-    // Recurring rule setup
+    // Recurring rule setup for events
     let isRecurring = false;
-    let rrule = "";
+    let rrule = ""; 
 
+    // Determine the start date and recurrence rule based on the event date
     if (date.includes("Every Sunday")) {
       startDate.setDate(startDate.getDate() + ((7 - startDate.getDay()) % 7));
       isRecurring = true;
@@ -66,22 +72,24 @@ export default function Events() {
       startDate = new Date(date);
     }
 
-    // Time handling
-    const firstTime = time.split("&")[0].trim();
-    const [hour, minutePart] = firstTime.split(":");
-    const minutes = parseInt(minutePart);
-    const isPM = firstTime.toLowerCase().includes("pm");
-    let hourNum = parseInt(hour);
-    if (isPM && hourNum < 12) hourNum += 12;
-    if (!isPM && hourNum === 12) hourNum = 0;
-    startDate.setHours(hourNum, minutes, 0);
+    // Time handling for the event
+    const firstTime = time.split("&")[0].trim(); // Get the first time slot
+    const [hour, minutePart] = firstTime.split(":"); // Split into hour and minute
+    const minutes = parseInt(minutePart); // Parse minutes
+    const isPM = firstTime.toLowerCase().includes("pm"); // Check if time is PM
+    let hourNum = parseInt(hour); // Parse hour
+    if (isPM && hourNum < 12) hourNum += 12; // Convert PM hour to 24-hour format
+    if (!isPM && hourNum === 12) hourNum = 0; // Convert 12 AM to 0 hour
+    startDate.setHours(hourNum, minutes, 0); // Set the start date time
 
-    const endDate = new Date(startDate);
-    endDate.setHours(endDate.getHours() + 1);
+    const endDate = new Date(startDate); // Initialize end date
+    endDate.setHours(endDate.getHours() + 1); // Set end date time to one hour later
 
+    // Function to format date in ICS format
     const formatDate = (d) =>
       d.toISOString().replace(/[-:]|\.\d{3}/g, "");
 
+    // Create ICS file content
     const ics = `
 BEGIN:VCALENDAR
 VERSION:2.0
@@ -100,6 +108,7 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR`.trim();
 
+    // Create a blob and download the ICS file
     const blob = new Blob([ics], { type: "text/calendar" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");

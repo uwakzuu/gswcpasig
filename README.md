@@ -1,7 +1,7 @@
 
 # GSWC Pasig Webpage 
 
-![Screenshot](./assets/img/Screenshot.png)
+![Screenshot](./src/assets/img/Screenshot.png)
 
 ### Available Pages
     1. Landing Page

@@ -41,3 +41,10 @@ npm install
 
 - [@uwakzuu](https://github.com/uwakzuu)
 
+## Run Locally
+
+Start the server
+
+```bash
+  npm run dev
+```
